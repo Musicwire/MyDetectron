@@ -1,0 +1,587 @@
+Found Detectron ops lib: /home/pding/download/caffe2/build/lib/libcaffe2_detectron_ops_gpu.so
+INFO test_net.py: 111: Called with args:
+INFO test_net.py: 112: Namespace(cfg_file='./test/coco_2014_minival/generalized_rcnn/detection_range_config.yaml', multi_gpu_testing=False, opts=['NUM_GPUS', '1'], range=[0, 625], vis=False, wait=True)
+INFO test_net.py: 118: Testing with config:
+INFO test_net.py: 119: {'BBOX_XFORM_CLIP': 4.135166556742356,
+ 'CLUSTER': {'ON_CLUSTER': False},
+ 'DATA_LOADER': {'NUM_THREADS': 4},
+ 'DEDUP_BOXES': 0.0625,
+ 'DOWNLOAD_CACHE': '/tmp/detectron-download-cache',
+ 'EPS': 1e-14,
+ 'EXPECTED_RESULTS': [],
+ 'EXPECTED_RESULTS_ATOL': 0.005,
+ 'EXPECTED_RESULTS_EMAIL': '',
+ 'EXPECTED_RESULTS_RTOL': 0.1,
+ 'FAST_RCNN': {'MLP_HEAD_DIM': 1024,
+               'ROI_BOX_HEAD': 'fast_rcnn_heads.add_roi_2mlp_head',
+               'ROI_XFORM_METHOD': 'RoIAlign',
+               'ROI_XFORM_RESOLUTION': 7,
+               'ROI_XFORM_SAMPLING_RATIO': 2},
+ 'FPN': {'COARSEST_STRIDE': 32,
+         'DIM': 256,
+         'EXTRA_CONV_LEVELS': False,
+         'FPN_ON': True,
+         'MULTILEVEL_ROIS': True,
+         'MULTILEVEL_RPN': True,
+         'ROI_CANONICAL_LEVEL': 4,
+         'ROI_CANONICAL_SCALE': 224,
+         'ROI_MAX_LEVEL': 5,
+         'ROI_MIN_LEVEL': 2,
+         'RPN_ANCHOR_START_SIZE': 32,
+         'RPN_ASPECT_RATIOS': (0.5, 1, 2),
+         'RPN_MAX_LEVEL': 6,
+         'RPN_MIN_LEVEL': 2,
+         'ZERO_INIT_LATERAL': False},
+ 'KRCNN': {'CONV_HEAD_DIM': 256,
+           'CONV_HEAD_KERNEL': 3,
+           'CONV_INIT': 'GaussianFill',
+           'DECONV_DIM': 256,
+           'DECONV_KERNEL': 4,
+           'DILATION': 1,
+           'HEATMAP_SIZE': -1,
+           'INFERENCE_MIN_SIZE': 0,
+           'KEYPOINT_CONFIDENCE': 'bbox',
+           'LOSS_WEIGHT': 1.0,
+           'MIN_KEYPOINT_COUNT_FOR_VALID_MINIBATCH': 20,
+           'NMS_OKS': False,
+           'NORMALIZE_BY_VISIBLE_KEYPOINTS': True,
+           'NUM_KEYPOINTS': -1,
+           'NUM_STACKED_CONVS': 8,
+           'ROI_KEYPOINTS_HEAD': '',
+           'ROI_XFORM_METHOD': 'RoIAlign',
+           'ROI_XFORM_RESOLUTION': 7,
+           'ROI_XFORM_SAMPLING_RATIO': 0,
+           'UP_SCALE': -1,
+           'USE_DECONV': False,
+           'USE_DECONV_OUTPUT': False},
+ 'MATLAB': 'matlab',
+ 'MEMONGER': True,
+ 'MEMONGER_SHARE_ACTIVATIONS': False,
+ 'MODEL': {'BBOX_REG_WEIGHTS': (10.0, 10.0, 5.0, 5.0),
+           'CLS_AGNOSTIC_BBOX_REG': False,
+           'CONV_BODY': 'FPN.add_fpn_ResNet101_conv5_body',
+           'EXECUTION_TYPE': 'dag',
+           'FASTER_RCNN': False,
+           'KEYPOINTS_ON': False,
+           'MASK_ON': True,
+           'NUM_CLASSES': 81,
+           'RPN_ONLY': False,
+           'TYPE': 'generalized_rcnn'},
+ 'MRCNN': {'CLS_SPECIFIC_MASK': True,
+           'CONV_INIT': 'MSRAFill',
+           'DILATION': 1,
+           'DIM_REDUCED': 256,
+           'RESOLUTION': 28,
+           'ROI_MASK_HEAD': 'mask_rcnn_heads.mask_rcnn_fcn_head_v1up4convs',
+           'ROI_XFORM_METHOD': 'RoIAlign',
+           'ROI_XFORM_RESOLUTION': 14,
+           'ROI_XFORM_SAMPLING_RATIO': 2,
+           'THRESH_BINARIZE': 0.5,
+           'UPSAMPLE_RATIO': 1,
+           'USE_FC_OUTPUT': False,
+           'WEIGHT_LOSS_MASK': 1.0},
+ 'NUM_GPUS': 1,
+ 'OUTPUT_DIR': './',
+ 'PIXEL_MEANS': array([[[102.9801, 115.9465, 122.7717]]]),
+ 'RESNETS': {'NUM_GROUPS': 1,
+             'RES5_DILATION': 1,
+             'STRIDE_1X1': True,
+             'TRANS_FUNC': 'bottleneck_transformation',
+             'WIDTH_PER_GROUP': 64},
+ 'RETINANET': {'ANCHOR_SCALE': 4,
+               'ASPECT_RATIOS': (0.5, 1.0, 2.0),
+               'BBOX_REG_BETA': 0.11,
+               'BBOX_REG_WEIGHT': 1.0,
+               'CLASS_SPECIFIC_BBOX': False,
+               'INFERENCE_TH': 0.05,
+               'LOSS_ALPHA': 0.25,
+               'LOSS_GAMMA': 2.0,
+               'NEGATIVE_OVERLAP': 0.4,
+               'NUM_CONVS': 4,
+               'POSITIVE_OVERLAP': 0.5,
+               'PRE_NMS_TOP_N': 1000,
+               'PRIOR_PROB': 0.01,
+               'RETINANET_ON': False,
+               'SCALES_PER_OCTAVE': 3,
+               'SHARE_CLS_BBOX_TOWER': False,
+               'SOFTMAX': False},
+ 'RFCN': {'PS_GRID_SIZE': 3},
+ 'RNG_SEED': 3,
+ 'ROOT_DIR': '/home/pding/download/Detectron',
+ 'RPN': {'ASPECT_RATIOS': (0.5, 1, 2),
+         'RPN_ON': False,
+         'SIZES': (64, 128, 256, 512),
+         'STRIDE': 16},
+ 'SOLVER': {'BASE_LR': 0.02,
+            'GAMMA': 0.1,
+            'LOG_LR_CHANGE_THRESHOLD': 1.1,
+            'LRS': [],
+            'LR_POLICY': 'steps_with_decay',
+            'MAX_ITER': 90000,
+            'MOMENTUM': 0.9,
+            'SCALE_MOMENTUM': True,
+            'SCALE_MOMENTUM_THRESHOLD': 1.1,
+            'STEPS': [0, 60000, 80000],
+            'STEP_SIZE': 30000,
+            'WARM_UP_FACTOR': 0.3333333333333333,
+            'WARM_UP_ITERS': 500,
+            'WARM_UP_METHOD': u'linear',
+            'WEIGHT_DECAY': 0.0001},
+ 'TEST': {'BBOX_AUG': {'AREA_TH_HI': 32400,
+                       'AREA_TH_LO': 2500,
+                       'ASPECT_RATIOS': (),
+                       'ASPECT_RATIO_H_FLIP': False,
+                       'COORD_HEUR': 'UNION',
+                       'ENABLED': False,
+                       'H_FLIP': False,
+                       'MAX_SIZE': 4000,
+                       'SCALES': (),
+                       'SCALE_H_FLIP': False,
+                       'SCALE_SIZE_DEP': False,
+                       'SCORE_HEUR': 'UNION'},
+          'BBOX_REG': True,
+          'BBOX_VOTE': {'ENABLED': False,
+                        'SCORING_METHOD': 'ID',
+                        'SCORING_METHOD_BETA': 1.0,
+                        'VOTE_TH': 0.8},
+          'COMPETITION_MODE': True,
+          'DATASET': 'coco_2014_minival',
+          'DATASETS': ('coco_2014_minival',),
+          'DETECTIONS_PER_IM': 100,
+          'FORCE_JSON_DATASET_EVAL': False,
+          'KPS_AUG': {'AREA_TH': 32400,
+                      'ASPECT_RATIOS': (),
+                      'ASPECT_RATIO_H_FLIP': False,
+                      'ENABLED': False,
+                      'HEUR': 'HM_AVG',
+                      'H_FLIP': False,
+                      'MAX_SIZE': 4000,
+                      'SCALES': (),
+                      'SCALE_H_FLIP': False,
+                      'SCALE_SIZE_DEP': False},
+          'MASK_AUG': {'AREA_TH': 32400,
+                       'ASPECT_RATIOS': (),
+                       'ASPECT_RATIO_H_FLIP': False,
+                       'ENABLED': False,
+                       'HEUR': 'SOFT_AVG',
+                       'H_FLIP': False,
+                       'MAX_SIZE': 4000,
+                       'SCALES': (),
+                       'SCALE_H_FLIP': False,
+                       'SCALE_SIZE_DEP': False},
+          'MAX_SIZE': 1333,
+          'NMS': 0.5,
+          'PRECOMPUTED_PROPOSALS': True,
+          'PROPOSAL_FILE': '/tmp/detectron-download-cache/35998887/12_2017_baselines/rpn_R-101-FPN_1x.yaml.08_07_07.vzhHEs0V/output/test/coco_2014_minival/generalized_rcnn/rpn_proposals.pkl',
+          'PROPOSAL_FILES': (u'/tmp/detectron-download-cache/35998887/12_2017_baselines/rpn_R-101-FPN_1x.yaml.08_07_07.vzhHEs0V/output/test/coco_2014_minival/generalized_rcnn/rpn_proposals.pkl',),
+          'PROPOSAL_LIMIT': 1000,
+          'RPN_MIN_SIZE': 0,
+          'RPN_NMS_THRESH': 0.7,
+          'RPN_POST_NMS_TOP_N': 2000,
+          'RPN_PRE_NMS_TOP_N': 12000,
+          'SCALES': (800,),
+          'SCORE_THRESH': 0.05,
+          'SOFT_NMS': {'ENABLED': False, 'METHOD': 'linear', 'SIGMA': 0.5},
+          'WEIGHTS': './train/coco_2014_train:coco_2014_valminusminival/generalized_rcnn/model_final.pkl'},
+ 'TRAIN': {'ASPECT_GROUPING': True,
+           'AUTO_RESUME': True,
+           'BATCH_SIZE_PER_IM': 512,
+           'BBOX_THRESH': 0.5,
+           'BG_THRESH_HI': 0.5,
+           'BG_THRESH_LO': 0.0,
+           'CROWD_FILTER_THRESH': 0.7,
+           'DATASETS': ('coco_2014_train', 'coco_2014_valminusminival'),
+           'FG_FRACTION': 0.25,
+           'FG_THRESH': 0.5,
+           'FREEZE_CONV_BODY': False,
+           'GT_MIN_AREA': -1,
+           'IMS_PER_BATCH': 2,
+           'MAX_SIZE': 1333,
+           'PROPOSAL_FILES': (u'/tmp/detectron-download-cache/35998887/12_2017_baselines/rpn_R-101-FPN_1x.yaml.08_07_07.vzhHEs0V/output/test/coco_2014_train/generalized_rcnn/rpn_proposals.pkl',
+                              u'/tmp/detectron-download-cache/35998887/12_2017_baselines/rpn_R-101-FPN_1x.yaml.08_07_07.vzhHEs0V/output/test/coco_2014_valminusminival/generalized_rcnn/rpn_proposals.pkl'),
+           'RPN_BATCH_SIZE_PER_IM': 256,
+           'RPN_FG_FRACTION': 0.5,
+           'RPN_MIN_SIZE': 0,
+           'RPN_NEGATIVE_OVERLAP': 0.3,
+           'RPN_NMS_THRESH': 0.7,
+           'RPN_POSITIVE_OVERLAP': 0.7,
+           'RPN_POST_NMS_TOP_N': 2000,
+           'RPN_PRE_NMS_TOP_N': 12000,
+           'RPN_STRADDLE_THRESH': 0,
+           'SCALES': (800,),
+           'SNAPSHOT_ITERS': 20000,
+           'USE_FLIPPED': True,
+           'WEIGHTS': '/tmp/detectron-download-cache/ImageNetPretrained/MSRA/R-101.pkl'},
+ 'USE_NCCL': False,
+ 'VIS': False,
+ 'VIS_TH': 0.9}
+loading annotations into memory...
+Done (t=0.69s)
+creating index...
+index created!
+INFO json_dataset.py: 257: Loading proposals from: /tmp/detectron-download-cache/35998887/12_2017_baselines/rpn_R-101-FPN_1x.yaml.08_07_07.vzhHEs0V/output/test/coco_2014_minival/generalized_rcnn/rpn_proposals.pkl
+INFO json_dataset.py: 265:  1/5000
+INFO json_dataset.py: 265:  2501/5000
+WARNING cnn.py:  40: [====DEPRECATE WARNING====]: you are creating an object from CNNModelHelper class which will be deprecated soon. Please use ModelHelper object with brew module. For more information, please refer to caffe2.ai and python/brew.py, python/brew_test.py for more information.
+INFO net.py:  57: Loading weights from: ./train/coco_2014_train:coco_2014_valminusminival/generalized_rcnn/model_final.pkl
+I0319 01:18:21.482085 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.482633 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.482900 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.483170 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.483387 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.483429 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.483681 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.483932 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.484190 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.484226 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.484469 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.484724 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.484979 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.485013 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.485059 44394 operator.cc:173] Operator with engine CUDNN is not available for operator StopGradient.
+I0319 01:18:21.485297 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.485554 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.485810 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.486027 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.486064 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.486321 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.486577 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.486825 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.486860 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.487113 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.487370 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.487625 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.487659 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.487910 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.488174 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.488437 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.488471 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.488715 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.488970 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.489228 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.489451 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.489487 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.489742 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.489997 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.490258 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.490293 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.490541 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.490795 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.491044 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.491083 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.491334 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.491595 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.491844 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.491879 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.492135 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.492395 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.492652 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.492686 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.492931 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.493196 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.493448 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.493481 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.493726 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.493979 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.494238 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.494273 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.494521 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.494773 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.495033 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.495067 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.495326 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.495579 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.495846 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.495880 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.496132 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.496392 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.496645 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.496680 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.496929 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.497196 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.497457 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.497491 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.497737 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.497997 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.498257 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.498293 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.498540 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.498801 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.499063 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.499104 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.499354 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.499620 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.499876 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.499912 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.500167 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.500428 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.500679 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.500715 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.500964 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.501230 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.501487 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.501521 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.501773 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.502035 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.502300 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.502336 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.502588 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.502843 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.503104 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.503142 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.503388 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.503651 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.503913 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.503947 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.504206 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.504467 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.504721 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.504756 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.504998 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.505259 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.505515 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.505556 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.505805 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.506062 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.506340 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.506376 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.506628 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.506888 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.507151 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.507189 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.507452 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.507709 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.507966 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.508195 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.508231 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.508481 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.508741 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.509001 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.509035 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.509290 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.509555 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.509809 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.509842 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.510296 44394 operator.cc:173] Operator with engine CUDNN is not available for operator UpsampleNearest.
+I0319 01:18:21.510339 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.510565 44394 operator.cc:173] Operator with engine CUDNN is not available for operator UpsampleNearest.
+I0319 01:18:21.510601 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.510828 44394 operator.cc:173] Operator with engine CUDNN is not available for operator UpsampleNearest.
+I0319 01:18:21.510860 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.511857 44394 operator.cc:173] Operator with engine CUDNN is not available for operator RoIAlign.
+I0319 01:18:21.511924 44394 operator.cc:173] Operator with engine CUDNN is not available for operator RoIAlign.
+I0319 01:18:21.511965 44394 operator.cc:173] Operator with engine CUDNN is not available for operator RoIAlign.
+I0319 01:18:21.512003 44394 operator.cc:173] Operator with engine CUDNN is not available for operator RoIAlign.
+I0319 01:18:21.512045 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Concat.
+I0319 01:18:21.512101 44394 operator.cc:173] Operator with engine CUDNN is not available for operator BatchPermutation.
+I0319 01:18:21.512133 44394 operator.cc:173] Operator with engine CUDNN is not available for operator FC.
+I0319 01:18:21.512197 44394 operator.cc:173] Operator with engine CUDNN is not available for operator FC.
+I0319 01:18:21.512248 44394 operator.cc:173] Operator with engine CUDNN is not available for operator FC.
+I0319 01:18:21.512308 44394 operator.cc:173] Operator with engine CUDNN is not available for operator FC.
+I0319 01:18:21.512795 44394 net_dag_utils.cc:118] Operator graph pruning prior to chain compute took: 0.000198817 secs
+I0319 01:18:21.513084 44394 net_dag.cc:61] Number of parallel execution chains 36 Number of operators = 371
+I0319 01:18:21.561378 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.561836 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.562098 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.562350 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.562579 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.562619 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.562866 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.563133 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.563392 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.563431 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.563676 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.563930 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.564200 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.564235 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.564280 44394 operator.cc:173] Operator with engine CUDNN is not available for operator StopGradient.
+I0319 01:18:21.564514 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.564769 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.565017 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.565243 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.565279 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.565526 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.565780 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.566032 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.566066 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.566323 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.566572 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.566823 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.566856 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.567103 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.567356 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.567611 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.567644 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.567891 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.568159 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.568413 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.568639 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.568673 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.568925 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.569190 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.569445 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.569479 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.569730 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.569988 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.570255 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.570288 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.570541 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.570804 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.571061 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.571102 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.571353 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.571604 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.571856 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.571890 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.572140 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.572396 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.572648 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.572680 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.572922 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.573192 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.573447 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.573484 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.573729 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.573981 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.574235 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.574270 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.574512 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.574764 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.575013 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.575047 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.575299 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.575559 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.575814 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.575847 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.576105 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.576361 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.576613 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.576647 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.576894 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.577158 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.577410 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.577445 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.577689 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.577958 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.578224 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.578261 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.578507 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.578766 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.579017 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.579052 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.579303 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.579560 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.579819 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.579854 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.580106 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.580374 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.580629 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.580664 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.580909 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.581174 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.581434 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.581468 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.581713 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.581972 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.582239 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.582276 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.582520 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.582774 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.583034 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.583070 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.583335 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.583604 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.583865 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.583901 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.584161 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.584419 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.584674 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.584709 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.584959 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.585222 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.585482 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.585518 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.585775 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.586040 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.586307 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.586343 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.586597 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.586853 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.587113 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.587340 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.587376 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.587627 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.587885 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.588152 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.588189 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.588439 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.588696 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.588951 44394 operator.cc:173] Operator with engine CUDNN is not available for operator AffineChannel.
+I0319 01:18:21.588986 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.589444 44394 operator.cc:173] Operator with engine CUDNN is not available for operator UpsampleNearest.
+I0319 01:18:21.589483 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.589707 44394 operator.cc:173] Operator with engine CUDNN is not available for operator UpsampleNearest.
+I0319 01:18:21.589742 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.589962 44394 operator.cc:173] Operator with engine CUDNN is not available for operator UpsampleNearest.
+I0319 01:18:21.589995 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sum.
+I0319 01:18:21.591395 44394 net_dag_utils.cc:118] Operator graph pruning prior to chain compute took: 0.000187586 secs
+I0319 01:18:21.591660 44394 net_dag.cc:61] Number of parallel execution chains 30 Number of operators = 358
+I0319 01:18:21.595551 44394 operator.cc:173] Operator with engine CUDNN is not available for operator RoIAlign.
+I0319 01:18:21.595623 44394 operator.cc:173] Operator with engine CUDNN is not available for operator RoIAlign.
+I0319 01:18:21.595664 44394 operator.cc:173] Operator with engine CUDNN is not available for operator RoIAlign.
+I0319 01:18:21.595701 44394 operator.cc:173] Operator with engine CUDNN is not available for operator RoIAlign.
+I0319 01:18:21.595739 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Concat.
+I0319 01:18:21.595779 44394 operator.cc:173] Operator with engine CUDNN is not available for operator BatchPermutation.
+I0319 01:18:21.597028 44394 operator.cc:173] Operator with engine CUDNN is not available for operator Sigmoid.
+I0319 01:18:21.597105 44394 net_dag_utils.cc:118] Operator graph pruning prior to chain compute took: 1.7067e-05 secs
+I0319 01:18:21.597146 44394 net_dag.cc:61] Number of parallel execution chains 5 Number of operators = 18
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 1/625 1.317s + 0.090s (eta: 0:14:37)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 11/625 0.280s + 0.051s (eta: 0:03:23)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 21/625 0.218s + 0.042s (eta: 0:02:37)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 31/625 0.210s + 0.042s (eta: 0:02:29)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 41/625 0.198s + 0.041s (eta: 0:02:19)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 51/625 0.190s + 0.042s (eta: 0:02:12)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 61/625 0.185s + 0.040s (eta: 0:02:06)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 71/625 0.181s + 0.039s (eta: 0:02:02)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 81/625 0.178s + 0.040s (eta: 0:01:58)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 91/625 0.176s + 0.040s (eta: 0:01:55)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 101/625 0.174s + 0.042s (eta: 0:01:53)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 111/625 0.172s + 0.041s (eta: 0:01:49)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 121/625 0.171s + 0.042s (eta: 0:01:47)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 131/625 0.171s + 0.042s (eta: 0:01:45)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 141/625 0.170s + 0.043s (eta: 0:01:43)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 151/625 0.170s + 0.043s (eta: 0:01:40)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 161/625 0.169s + 0.043s (eta: 0:01:38)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 171/625 0.168s + 0.043s (eta: 0:01:35)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 181/625 0.168s + 0.043s (eta: 0:01:33)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 191/625 0.167s + 0.044s (eta: 0:01:31)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 201/625 0.167s + 0.043s (eta: 0:01:28)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 211/625 0.166s + 0.043s (eta: 0:01:26)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 221/625 0.166s + 0.043s (eta: 0:01:24)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 231/625 0.166s + 0.042s (eta: 0:01:21)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 241/625 0.167s + 0.042s (eta: 0:01:20)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 251/625 0.167s + 0.042s (eta: 0:01:18)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 261/625 0.168s + 0.043s (eta: 0:01:16)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 271/625 0.168s + 0.042s (eta: 0:01:14)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 281/625 0.168s + 0.042s (eta: 0:01:12)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 291/625 0.168s + 0.042s (eta: 0:01:10)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 301/625 0.168s + 0.042s (eta: 0:01:08)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 311/625 0.168s + 0.042s (eta: 0:01:06)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 321/625 0.168s + 0.043s (eta: 0:01:04)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 331/625 0.169s + 0.043s (eta: 0:01:02)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 341/625 0.169s + 0.043s (eta: 0:01:00)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 351/625 0.169s + 0.043s (eta: 0:00:58)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 361/625 0.169s + 0.043s (eta: 0:00:56)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 371/625 0.170s + 0.043s (eta: 0:00:53)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 381/625 0.170s + 0.043s (eta: 0:00:51)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 391/625 0.170s + 0.042s (eta: 0:00:49)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 401/625 0.170s + 0.042s (eta: 0:00:47)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 411/625 0.170s + 0.042s (eta: 0:00:45)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 421/625 0.170s + 0.042s (eta: 0:00:43)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 431/625 0.170s + 0.042s (eta: 0:00:41)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 441/625 0.170s + 0.042s (eta: 0:00:39)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 451/625 0.170s + 0.042s (eta: 0:00:36)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 461/625 0.170s + 0.042s (eta: 0:00:34)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 471/625 0.171s + 0.041s (eta: 0:00:32)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 481/625 0.171s + 0.042s (eta: 0:00:30)
+INFO test_engine.py: 225: im_detect: range [1, 625] of 5000: 491/625 0.171s + 0.042s (eta: 0:00:28)
