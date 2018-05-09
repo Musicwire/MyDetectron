@@ -45,7 +45,6 @@ def flip_segms(segms, height, width):
             # COCO API showAnns function.
             rle = mask_util.frPyObjects([rle], height, width)
         mask = mask_util.decode(rle)
-
         mask = mask[:, ::-1, :]
         rle = mask_util.encode(np.array(mask, order='F', dtype=np.uint8))
         return rle
@@ -123,7 +122,6 @@ def polys_to_boxes(polys):
     boxes_from_polys = np.zeros((len(polys), 4), dtype=np.float32)
     for i in range(len(polys)):
         poly = polys[i]
-        
         x0 = min(min(p[::2]) for p in poly)
         x1 = max(max(p[::2]) for p in poly)
         y0 = min(min(p[1::2]) for p in poly)

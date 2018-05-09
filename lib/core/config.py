@@ -99,6 +99,7 @@ __C.TRAIN.BATCH_SIZE_PER_IM = 64
 
 ''' by bacon '''
 __C.TRAIN.BATCH_SIZE = 64
+''' by bacon '''
 
 # Target fraction of RoI minibatch that is labeled foreground (i.e. class > 0)
 __C.TRAIN.FG_FRACTION = 0.25
@@ -191,6 +192,13 @@ __C.TRAIN.FREEZE_CONV_BODY = False
 # output directory
 __C.TRAIN.AUTO_RESUME = True
 
+################################################################################
+''' seg-eve '''
+# For seg-every-thing training
+__C.TRAIN.TRAIN_MASK_HEAD_ONLY = False
+__C.TRAIN.MRCNN_FILTER_LABELS = False
+__C.TRAIN.MRCNN_LABELS_TO_KEEP = ()
+################################################################################
 
 # ---------------------------------------------------------------------------- #
 # Data loader options
@@ -216,11 +224,8 @@ __C.TEST.WEIGHTS = b''
 # If multiple datasets are listed, testing is performed on each one sequentially
 __C.TEST.DATASETS = ()
 
-# Scales to use during testing
-# Each scale is the pixel size of an image's shortest side
-# If multiple scales are given, then all scales are used as in multiscale
-# inference
-__C.TEST.SCALES = (600, )
+# Scale to use during testing
+__C.TEST.SCALE = 600
 
 # Max pixel size of the longest side of a scaled input image
 __C.TEST.MAX_SIZE = 1000
@@ -277,14 +282,6 @@ __C.TEST.FORCE_JSON_DATASET_EVAL = False
 # Indicates if precomputed proposals are used at test time
 # Not set for 1-stage models and 2-stage models with RPN subnetwork enabled
 __C.TEST.PRECOMPUTED_PROPOSALS = True
-
-# [Inferred value; do not set directly in a config]
-# Active dataset to test on
-__C.TEST.DATASET = b''
-
-# [Inferred value; do not set directly in a config]
-# Active proposal file to use
-__C.TEST.PROPOSAL_FILE = b''
 
 
 # ---------------------------------------------------------------------------- #
@@ -487,6 +484,7 @@ __C.MODEL.RPN_ONLY = False
 __C.MODEL.FCN_ONLY = False
 # Indicates the model makes class predictions without detection and classification and RPN
 __C.MODEL.CLSN_ONLY = False
+''' by bacon '''
 
 # Caffe2 net execution type
 # Use 'prof_dag' to get profiling statistics
@@ -613,6 +611,11 @@ __C.SOLVER.MOMENTUM = 0.9
 # L2 regularization hyperparameter
 __C.SOLVER.WEIGHT_DECAY = 0.0005
 
+''' seg-eve '''
+# L2 regularization hyperparameter for GroupNorm's parameters
+__C.SOLVER.WEIGHT_DECAY_GN = 0.0
+''' seg-eve '''
+
 # Warm up to SOLVER.BASE_LR over this number of SGD iterations
 __C.SOLVER.WARM_UP_ITERS = 500
 
@@ -647,6 +650,13 @@ __C.FAST_RCNN.ROI_BOX_HEAD = b''
 
 # Hidden layer dimension when using an MLP for the RoI box head
 __C.FAST_RCNN.MLP_HEAD_DIM = 1024
+
+''' seg-eve '''
+# Hidden Conv layer dimension when using Convs for the RoI box head
+__C.FAST_RCNN.CONV_HEAD_DIM = 256
+# Number of stacked Conv layers in the RoI box head
+__C.FAST_RCNN.NUM_STACKED_CONVS = 4
+''' seg-eve '''
 
 # RoI transformation function (e.g., RoIPool or RoIAlign)
 # (RoIPoolF is the same as RoIPool; ignore the trailing 'F')
@@ -728,6 +738,11 @@ __C.FPN.RPN_ASPECT_RATIOS = (0.5, 1, 2)
 __C.FPN.RPN_ANCHOR_START_SIZE = 32
 # Use extra FPN levels, as done in the RetinaNet paper
 __C.FPN.EXTRA_CONV_LEVELS = False
+
+''' seg-eve '''
+# Use GroupNorm in the FPN-specific layers (lateral, etc.)
+__C.FPN.USE_GN = False
+''' seg-eve '''
 
 
 # ---------------------------------------------------------------------------- #
@@ -857,6 +872,25 @@ __C.KRCNN.LOSS_WEIGHT = 1.0
 __C.KRCNN.NORMALIZE_BY_VISIBLE_KEYPOINTS = True
 
 
+################################################################################
+''' seg-eve '''
+# For seg-every-thing training
+__C.MRCNN.BBOX2MASK = AttrDict()
+__C.MRCNN.BBOX2MASK.BBOX2MASK_ON = False
+__C.MRCNN.BBOX2MASK.TYPE = b''
+__C.MRCNN.BBOX2MASK.USE_PRETRAINED_EMBED = False
+__C.MRCNN.BBOX2MASK.PRETRAINED_EMBED_NAME = b''
+__C.MRCNN.BBOX2MASK.PRETRAINED_EMBED_DIM = -1
+__C.MRCNN.BBOX2MASK.STOP_DET_W_GRAD = True
+__C.MRCNN.BBOX2MASK.INCLUDE_CLS_SCORE = True
+__C.MRCNN.BBOX2MASK.INCLUDE_BBOX_PRED = False
+__C.MRCNN.BBOX2MASK.USE_LEAKYRELU = True
+
+__C.MRCNN.JOINT_FCN_MLP_HEAD = False
+__C.MRCNN.MLP_MASK_BRANCH_TYPE = b''
+################################################################################
+
+
 ''' by bacon '''
 # ---------------------------------------------------------------------------- #
 # FCN options
@@ -958,8 +992,29 @@ __C.RESNETS.STRIDE_1X1 = True
 # Residual transformation function
 __C.RESNETS.TRANS_FUNC = b'bottleneck_transformation'
 
+''' seg-eve '''
+# ResNet's stem function (conv1 and pool1)
+__C.RESNETS.STEM_FUNC = b'basic_bn_stem'
+# ResNet's shortcut function
+__C.RESNETS.SHORTCUT_FUNC = b'basic_bn_shortcut'
+''' seg-eve '''
+
 # Apply dilation in stage "res5"
 __C.RESNETS.RES5_DILATION = 1
+
+
+''' seg-eve '''
+# ---------------------------------------------------------------------------- #
+# GroupNorm options
+# ---------------------------------------------------------------------------- #
+__C.GROUP_NORM = AttrDict()
+# Number of dimensions per group in GroupNorm (-1 if using NUM_GROUPS)
+__C.GROUP_NORM.DIM_PER_GP = -1
+# Number of groups in GroupNorm (-1 if using DIM_PER_GP)
+__C.GROUP_NORM.NUM_GROUPS = 32
+# GroupNorm's small constant in the denominator
+__C.GROUP_NORM.EPSILON = 1e-5
+''' seg-eve '''
 
 
 # ---------------------------------------------------------------------------- #
@@ -1051,7 +1106,7 @@ __C.CLUSTER.ON_CLUSTER = False
 # yaml configs, you can add the full config key as a string to the set below.
 # ---------------------------------------------------------------------------- #
 _DEPCRECATED_KEYS = set(
-    (
+    {
         'FINAL_MSG',
         'MODEL.DILATION',
         'ROOT_GPU_ID',
@@ -1060,7 +1115,7 @@ _DEPCRECATED_KEYS = set(
         'TRAIN.DROPOUT',
         'USE_GPU_NMS',
         'TEST.NUM_TEST_IMAGES',
-    )
+    }
 )
 
 # ---------------------------------------------------------------------------- #
@@ -1089,11 +1144,34 @@ _RENAMED_KEYS = {
         "'path/to/file1:path/to/file2' -> " +
         "('path/to/file1', 'path/to/file2')"
     ),
+    ''' seg-eve ''' 
+    'TEST.SCALES': (
+        'TEST.SCALE',
+        "Also convert from a tuple, e.g. (600, ), " +
+        "to a integer, e.g. 600."
+    ),
+    'TEST.DATASET': (
+        'TEST.DATASETS',
+        "Also convert from a string, e.g 'coco_2014_minival', " +
+        "to a tuple, e.g. ('coco_2014_minival', )."
+    ),
+    'TEST.PROPOSAL_FILE': (
+        'TEST.PROPOSAL_FILES',
+        "Also convert from a string, e.g. '/path/to/props.pkl', " +
+        "to a tuple, e.g. ('/path/to/props.pkl', )."
+    ),
+    ''' seg-eve ''' 
 }
 
 
-def assert_and_infer_cfg(cache_urls=True):
-    
+def assert_and_infer_cfg(cache_urls=True, make_immutable=True):
+    """Call this function in your script after you have finished setting all cfg
+    values that are necessary (e.g., merging a config from a file, merging
+    command line config options, etc.). By default, this function will also
+    mark the global cfg as immutable to prevent changing the global cfg settings
+    during script execution (which can lead to hard to debug errors or code
+    that's harder to understand than is necessary).
+    """
     ''' by bacon'''
     if __C.MODEL.FCN_ONLY:
         __C.TEST.PRECOMPUTED_PROPOSALS = False
@@ -1107,6 +1185,11 @@ def assert_and_infer_cfg(cache_urls=True):
     if cache_urls:
         cache_cfg_urls()
 
+    ''' seg-eve ''' 
+    if make_immutable:
+        cfg.immutable(True)
+    ''' seg-eve ''' 
+
 
 def cache_cfg_urls():
     """Download URLs in the config, cache them locally, and rewrite cfg to make
@@ -1115,10 +1198,10 @@ def cache_cfg_urls():
     __C.TRAIN.WEIGHTS = cache_url(__C.TRAIN.WEIGHTS, __C.DOWNLOAD_CACHE)
     __C.TEST.WEIGHTS = cache_url(__C.TEST.WEIGHTS, __C.DOWNLOAD_CACHE)
     __C.TRAIN.PROPOSAL_FILES = tuple(
-        [cache_url(f, __C.DOWNLOAD_CACHE) for f in __C.TRAIN.PROPOSAL_FILES]
+        cache_url(f, __C.DOWNLOAD_CACHE) for f in __C.TRAIN.PROPOSAL_FILES
     )
     __C.TEST.PROPOSAL_FILES = tuple(
-        [cache_url(f, __C.DOWNLOAD_CACHE) for f in __C.TEST.PROPOSAL_FILES]
+        cache_url(f, __C.DOWNLOAD_CACHE) for f in __C.TEST.PROPOSAL_FILES
     )
 
 

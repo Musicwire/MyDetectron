@@ -48,11 +48,11 @@ from roi_data.loader import RoIDataLoader
 import modeling.fast_rcnn_heads as fast_rcnn_heads
 import modeling.keypoint_rcnn_heads as keypoint_rcnn_heads
 import modeling.mask_rcnn_heads as mask_rcnn_heads
+import modeling.name_compat
+import modeling.optimizer as optim
 import modeling.retinanet_heads as retinanet_heads
 import modeling.rfcn_heads as rfcn_heads
 import modeling.rpn_heads as rpn_heads
-import modeling.name_compat
-import modeling.optimizer as optim
 
 ''' by bacon '''
 import modeling.fcn_heads as fcn_heads
@@ -95,7 +95,7 @@ def generalized_rcnn(model):
         freeze_conv_body=cfg.TRAIN.FREEZE_CONV_BODY,
 
         ''' by bacon '''
-        add_roi_fcn_head_func=get_func(cfg.FCN.ROI_FCN_HEAD)
+        add_roi_fcn_head_func=get_func(cfg.FCN.ROI_FCN_HEAD),
         add_roi_clsn_head_func=get_func(cfg.CLSN.ROI_CLSN_HEAD)
         ''' by bacon '''
         
@@ -197,7 +197,11 @@ def build_generic_detection_model(
             'box': None,
             'mask': None,
             'keypoints': None,
+
+            ''' by bacon '''
             'fcn': None,
+            'clsn':None
+            ''' by bacon '''
         }
 
         if cfg.RPN.RPN_ON:
@@ -252,9 +256,16 @@ def build_generic_detection_model(
 
         if model.train:
             loss_gradients = {}
-            for lg in head_loss_gradients.values():
-                if lg is not None:
-                    loss_gradients.update(lg)
+
+            ''' seg-eve '''
+           if cfg.TRAIN.TRAIN_MASK_HEAD_ONLY:
+                loss_gradients.update(head_loss_gradients['mask'])
+            else:
+                for lg in head_loss_gradients.values():
+                    if lg is not None:
+                        loss_gradients.update(lg)
+            ''' seg-eve '''
+
             return loss_gradients
         else:
             return None
@@ -290,7 +301,9 @@ def _add_fast_rcnn_head(
     # Add the fast-rcnn output
     fast_rcnn_heads.add_fast_rcnn_outputs(model, blob_frcn, dim_frcn)
     # Add the fast-rcnn loss
-    if model.train:
+    ''' seg-eve '''
+    if model.train and not cfg.TRAIN.TRAIN_MASK_HEAD_ONLY:
+    ''' seg-eve '''
         loss_gradients = fast_rcnn_heads.add_fast_rcnn_losses(model)
     else:
         loss_gradients = None
@@ -344,10 +357,7 @@ def _add_roi_keypoint_head(
         model, blob_keypoint_head, dim_keypoint_head
     )
 
-    if model.train:  
-        loss_gradients = keypoint_rcnn_heads.add_keypoint_losses(model)
-    else:
-        # == inference
+    if not model.train:  # == inference
         # Inference uses a cascade of box predictions, then keypoint predictions
         # This requires separate nets for box and keypoint prediction.
         # So we extract the keypoint prediction net, store it as its own
@@ -357,7 +367,12 @@ def _add_roi_keypoint_head(
         )
         model.net._net = bbox_net
         loss_gradients = None
-
+    ''' seg-eve '''
+    elif not cfg.TRAIN.TRAIN_MASK_HEAD_ONLY:  # == train
+        loss_gradients = keypoint_rcnn_heads.add_keypoint_losses(model)
+    ''' seg-eve '''
+    else:  # == train mask head only
+        loss_gradients = None
     return loss_gradients
 
 ''' by bacon '''
