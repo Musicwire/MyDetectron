@@ -56,6 +56,8 @@ import modeling.optimizer as optim
 
 ''' by bacon '''
 import modeling.fcn_heads as fcn_heads
+import modeling.clsn_heads as clsn_heads
+''' by bacon '''
 
 import roi_data.minibatch
 import utils.c2 as c2_utils
@@ -93,7 +95,9 @@ def generalized_rcnn(model):
         freeze_conv_body=cfg.TRAIN.FREEZE_CONV_BODY,
 
         ''' by bacon '''
-        add_roi_fcn_head_func=get_func(fcg.FCN.ROI_FCN_HEAD)
+        add_roi_fcn_head_func=get_func(cfg.FCN.ROI_FCN_HEAD)
+        add_roi_clsn_head_func=get_func(cfg.CLSN.ROI_CLSN_HEAD)
+        ''' by bacon '''
         
     )
 
@@ -168,7 +172,8 @@ def build_generic_detection_model(
     add_roi_keypoint_head_func=None,
     freeze_conv_body=False,
     
-    add_roi_fcn_head_func=False
+    add_roi_fcn_head_func=False,
+    add_roi_clsn_head_func=False
     ''' by bacon '''
 ):
     def _single_gpu_build_func(model):
@@ -233,8 +238,17 @@ def build_generic_detection_model(
         if cfg.MODEL.FCN_ONLY:
             # Add the FCN head
             head_loss_gradients['fcn'] = _add_fcn_head(
-                model, add_roi_fcn_head_func, blob_conv, dim_conv, spatial_scale_conv
+                model, add_roi_fcn_head_func, blob_conv, dim_conv, 
+                spatial_scale_conv
             )
+
+        if cfg.MODEL.CLS_ONLY:
+            # Add the CLSN head
+            head_loss_gradients['clsn'] = _add_clsn_head(
+                model, add_roi_clsn_head_func, blob_conv, dim_conv,
+                spatial_scale_conv
+            )
+        ''' by bacon '''
 
         if model.train:
             loss_gradients = {}
@@ -346,11 +360,11 @@ def _add_roi_keypoint_head(
 
     return loss_gradients
 
-''' by bacon'''
+''' by bacon '''
 def _add_fcn_head(
     model, add_roi_fcn_head_func, blob_in, dim_in, spatial_scale_in
 ):
-    """Add a fcn prediction head to the model."""
+    """ Add a fcn prediction head to the model. """
     # Add the fcn head
     blob_fcn_head, dim_fcn_head = add_roi_fcn_head_func(
         model, blob_in, dim_in, spatial_scale_in
@@ -368,6 +382,26 @@ def _add_fcn_head(
     return loss_gradients
 
 
+def _add_clsn_head(
+    model, add_roi_clsn_head_func, blob_in, dim_in, spatial_scale_in
+):
+    """ Add a class prediction head to the model. """
+    # Add the clsn head
+    blob_clsn_head, dim_clsn_head = add_roi_clsn_head_func(
+        model, blob_in, dim_in, spatial_scale_in
+    )
+    # Add the clsn output
+    clsn_heads.add_clsn_outputs(
+        model, blob_clsn_head, dim_clsn_head
+    )
+    # Add the clsn loss
+    if model.train:
+        loss_gradients = clsn_heads.add_clsn_losses(model)
+    else:
+        loss_gradients = None
+    
+    return loss_gradients
+''' by bacon '''
 
 def build_generic_rfcn_model(model, add_conv_body_func, dim_reduce=None):
     # TODO(rbg): fold this function into build_generic_detection_model

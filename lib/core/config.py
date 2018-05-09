@@ -97,6 +97,9 @@ __C.TRAIN.IMS_PER_BATCH = 2
 # E.g., a common configuration is: 512 * 2 * 8 = 8192
 __C.TRAIN.BATCH_SIZE_PER_IM = 64
 
+''' by bacon '''
+__C.TRAIN.BATCH_SIZE = 64
+
 # Target fraction of RoI minibatch that is labeled foreground (i.e. class > 0)
 __C.TRAIN.FG_FRACTION = 0.25
 
@@ -482,6 +485,8 @@ __C.MODEL.RPN_ONLY = False
 ''' by bacon '''
 # Indicates the model makes mask predictions without detection and classification and RPN
 __C.MODEL.FCN_ONLY = False
+# Indicates the model makes class predictions without detection and classification and RPN
+__C.MODEL.CLSN_ONLY = False
 
 # Caffe2 net execution type
 # Use 'prof_dag' to get profiling statistics
@@ -891,15 +896,38 @@ __C.FCN.USE_FC_OUTPUT = False
 # Weight initialization method for the mask head and mask output layers
 __C.FCN.CONV_INIT = b'GaussianFill'
 
-# Use class specific mask predictions if True (otherwise use class agnostic mask
-# predictions)
-__C.FCN.CLS_SPECIFIC_MASK = True
-
 # Multi-task loss weight for masks
 __C.FCN.WEIGHT_LOSS_MASK = 1.0
 
 # Binarization threshold for converting soft masks to hard masks
 __C.FCN.THRESH_BINARIZE = 0.5
+
+
+# ---------------------------------------------------------------------------- #
+# CLSN options
+# ---------------------------------------------------------------------------- #
+__C.CLSN = AttrDict()
+
+# The type of RoI head to use for bounding box classification and regression
+# The string must match a function this is imported in modeling.model_builder
+# (e.g., 'head_builder.add_roi_2mlp_head' to specify a two hidden layer MLP)
+__C.CLSN.ROI_CLSN_HEAD = b''
+
+# Hidden layer dimension when using an MLP for the RoI box head
+__C.CLSN.MLP_HEAD_DIM = 1024
+
+# RoI transformation function (e.g., RoIPool or RoIAlign)
+# (RoIPoolF is the same as RoIPool; ignore the trailing 'F')
+__C.CLSN.ROI_XFORM_METHOD = b'RoIPoolF'
+
+# Number of grid sampling points in RoIAlign (usually use 2)
+# Only applies to RoIAlign
+__C.CLSN.ROI_XFORM_SAMPLING_RATIO = 0
+
+# RoI transform output resolution
+# Note: some models may have constraints on what they can use, e.g. they use
+# pretrained FC layers like in VGG16, and will ignore this option
+__C.CLSN.ROI_XFORM_RESOLUTION = 14
 ''' by bacon '''
 
 
@@ -1068,6 +1096,8 @@ def assert_and_infer_cfg(cache_urls=True):
     
     ''' by bacon'''
     if __C.MODEL.FCN_ONLY:
+        __C.TEST.PRECOMPUTED_PROPOSALS = False
+    if __C.MODEL.CLSN_ONLY:
         __C.TEST.PRECOMPUTED_PROPOSALS = False
 
     if __C.MODEL.RPN_ONLY or __C.MODEL.FASTER_RCNN:

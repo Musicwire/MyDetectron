@@ -39,52 +39,50 @@ import utils.blob as blob_utils
 # ---------------------------------------------------------------------------- #
 def add_fcn_rcnn_outputs(model, blob_in, dim):
 
-    """Add Mask R-CNN specific outputs: either mask logits or probs."""
-    num_cls = cfg.MODEL.NUM_CLASSES if cfg.FCN.CLS_SPECIFIC_MASK else 1
+    """Add FCN specific outputs: either mask logits or probs."""
+    dim_out = 1
 
     # Predict mask using Conv
     # Use GaussianFill for class-agnostic mask prediction; fills based on
     # fan-in can be too large in this case and cause divergence
-    fill = (
-        cfg.FCN.CONV_INIT
-        if cfg.FCN.CLS_SPECIFIC_MASK else 'GaussianFill'
-    )
     blob_out = model.Conv(
         blob_in,
         'mask_fcn_logits',
         dim,
-        num_cls,
+        dim_out,
         kernel=1,
         pad=0,
         stride=1,
-        weight_init=(fill, {'std': 0.001}),
+        weight_init=('GaussianFill', {'std': 0.001}),
         bias_init=const_fill(0.0)
     )
 
     if cfg.FCN.UPSAMPLE_RATIO > 1:
         blob_out = model.BilinearInterpolation(
-            'mask_fcn_logits', 'mask_fcn_logits_up', num_cls, num_cls,
+            'mask_fcn_logits', 'mask_fcn_logits_up', dim_out, dim_out,
             cfg.FCN.UPSAMPLE_RATIO
         )
 
     if not model.train:  # == if test
-        model.Softmax(blob_out, 'mask_fcn_probs')
+        blob_out = model.Softmax(blob_out, 'mask_fcn_probs')
+    
+    return blob_out
 
-def add_fcn_rcnn_losses(model):
-    """Add Mask R-CNN specific losses."""
+def add_fcn_rcnn_losses(model, blob_mask):
+    """Add FCN specific losses."""
     loss_mask = model.net.SoftmaxWithLoss(
-        [mask_fcn_logits, 'masks_int32'],
+        [blob_mask, 'masks_int32'],
         'loss_mask',
         scale=model.GetLossScale()
     )
-    loss_gradients = blob_utils.get_loss_gradients(model, [loss_mask])
+    loss_gradients = blob_utils.get_loss_gradients(model, ['loss_mask'])
     model.AddLosses('loss_mask')
     return loss_gradients
 
 # ---------------------------------------------------------------------------- #
 # FCN heads
 # ---------------------------------------------------------------------------- #
-def mask_rcnn_fcn_head_v1up4convs(model, blob_in, dim_in, spatial_scale, num_convs=4):
+def fcn_head_v1up4convs(model, blob_in, dim_in, spatial_scale, num_convs=4):
 
     """v1up design: 4 * (conv 3x3), convT 2x2."""
     """v1upXconvs design: X * (conv 3x3), convT 2x2."""

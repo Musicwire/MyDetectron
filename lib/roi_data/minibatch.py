@@ -40,6 +40,8 @@ import utils.blob as blob_utils
 
 ''' by bacon '''
 import roi_data.fcn
+import roi_data.clsn
+''' by bacon '''
 
 logger = logging.getLogger(__name__)
 
@@ -62,6 +64,10 @@ def get_minibatch_blob_names(is_training=True):
     ''' by bacon '''
     elif cfg.MODEL.FCN_ONLY:
         blob_names += roi_data.fcn.get_fcn_blob_names(is_training=is_training)
+
+    elif cfg.MODEL.CLSN_ONLY:
+        blob_names += roi_data.clsn.get_clsn_blob_names(is_training=is_training)
+    ''' by bacon '''
 
     else:
         # Fast R-CNN like models trained on precomputed proposals
@@ -97,7 +103,11 @@ def get_minibatch(roidb):
     ''' by bacon'''
     elif cfg.MODEL.FCN_ONLY:
         valid = roi_data.fcn.add_fcn_blobs(blobs, im_scales, roidb)
-
+    
+    elif cfg.MODEL.CLSN_ONLY:
+        valid = roi_data.clsn.add_clsn_blobs(blobs,im_scales, roidb)
+    ''' by bacon'''
+    
     else:
         # Fast R-CNN like models trained on precomputed proposals
         valid = roi_data.fast_rcnn.add_fast_rcnn_blobs(blobs, im_scales, roidb)
