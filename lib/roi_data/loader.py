@@ -62,7 +62,6 @@ import utils.c2 as c2_utils
 
 logger = logging.getLogger(__name__)
 
-
 class RoIDataLoader(object):
 
     # 0
@@ -98,13 +97,13 @@ class RoIDataLoader(object):
     
     # 0.1
     def create_threads(self):
+
         # Create mini-batch loader threads, each of which builds mini-batches
         # and places them into a queue in CPU memory
         self._workers = [
             threading.Thread(target=self.minibatch_loader_thread)
             for _ in range(self._num_loaders)
         ]
-
         # Create one BlobsQueue per GPU
         # (enqueue_blob_names are unscoped)
         enqueue_blob_names = self.create_blobs_queues()
@@ -116,9 +115,10 @@ class RoIDataLoader(object):
                 args=(gpu_id, enqueue_blob_names)
             ) for gpu_id in range(self._num_gpus)
         ]
-
+    import types
     # 0.1.1
     def minibatch_loader_thread(self):
+
         """Load mini-batches and put them onto the mini-batch queue."""
         with self.coordinator.stop_on_exception():
             while not self.coordinator.should_stop():
@@ -148,13 +148,12 @@ class RoIDataLoader(object):
     def _get_next_minibatch_inds(self):
         """Return the roidb indices for the next minibatch. Thread safe."""
         with self._lock:
-
             ''' by bacon '''
             if cfg.MODEL.FCN_ONLY:
                 db_inds = []
                 num = 0
                 while num < cfg.TRAIN.BATCH_SIZE:
-                    db_inds.append.append(self._perm[0])
+                    db_inds.append(self._perm[0])
                     self._perm.rotate(-1)
                     roi_num_per_img = len(np.where(self._roidb[self._perm[-1]]['gt_classes']>0)[0])
                     num += roi_num_per_img

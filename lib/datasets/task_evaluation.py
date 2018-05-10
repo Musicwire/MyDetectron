@@ -92,10 +92,10 @@ def evaluate_boxes(dataset, all_boxes, output_dir, use_matlab=False):
             dataset, all_boxes, output_dir, use_matlab=use_matlab
         )
         box_results = _voc_eval_to_box_results(voc_eval)
-    ''' seg-eve '''
+        ''' seg-eve '''
     elif _use_no_evaluator(dataset):
         box_results = _empty_box_results()
-    ''' seg-eve '''
+        ''' seg-eve '''
     else:
         raise NotImplementedError(
             'No evaluator for dataset: {}'.format(dataset.name)
@@ -127,10 +127,10 @@ def evaluate_masks(dataset, all_boxes, all_segms, output_dir):
             cleanup=not_comp
         )
         mask_results = _cs_eval_to_mask_results(cs_eval)
-    ''' seg-eve '''
+        ''' seg-eve '''
     elif _use_no_evaluator(dataset):
         mask_results = _empty_mask_results() 
-    ''' seg-eve '''
+        ''' seg-eve '''
     else:
         raise NotImplementedError(
             'No evaluator for dataset: {}'.format(dataset.name)

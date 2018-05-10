@@ -61,13 +61,13 @@ def get_minibatch_blob_names(is_training=True):
             is_training=is_training
         )
     
-    ''' by bacon '''
+        ''' by bacon '''
     elif cfg.MODEL.FCN_ONLY:
         blob_names += roi_data.fcn.get_fcn_blob_names(is_training=is_training)
 
     elif cfg.MODEL.CLSN_ONLY:
         blob_names += roi_data.clsn.get_clsn_blob_names(is_training=is_training)
-    ''' by bacon '''
+        ''' by bacon '''
 
     else:
         # Fast R-CNN like models trained on precomputed proposals
@@ -100,13 +100,13 @@ def get_minibatch(roidb):
             blobs, im_scales, roidb, im_width, im_height
         )
 
-    ''' by bacon'''
+        ''' by bacon'''
     elif cfg.MODEL.FCN_ONLY:
         valid = roi_data.fcn.add_fcn_blobs(blobs, im_scales, roidb)
     
     elif cfg.MODEL.CLSN_ONLY:
         valid = roi_data.clsn.add_clsn_blobs(blobs,im_scales, roidb)
-    ''' by bacon'''
+        ''' by bacon'''
     
     else:
         # Fast R-CNN like models trained on precomputed proposals
@@ -138,7 +138,7 @@ def _get_image_blob(roidb):
         )
         im_scales.append(im_scale)
         processed_ims.append(im)
-
+    
     # Create a blob to hold the input images
     blob = blob_utils.im_list_to_blob(processed_ims)
 

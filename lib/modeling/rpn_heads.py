@@ -45,7 +45,7 @@ def add_generic_rpn_outputs(model, blob_in, dim_in, spatial_scale_in):
             
         ''' seg-eve '''
         if model.train and not cfg.TRAIN.TRAIN_MASK_HEAD_ONLY:
-        ''' seg-eve '''
+            ''' seg-eve '''
             loss_gradients = FPN.add_fpn_rpn_losses(model)
     else:
         # Not using FPN, add RPN to a single scale
@@ -53,7 +53,7 @@ def add_generic_rpn_outputs(model, blob_in, dim_in, spatial_scale_in):
 
         ''' seg-eve '''
         if model.train and not cfg.TRAIN.TRAIN_MASK_HEAD_ONLY:
-        ''' seg-eve '''
+            ''' seg-eve '''
             loss_gradients = add_single_scale_rpn_losses(model)
     return loss_gradients
 

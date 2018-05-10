@@ -139,7 +139,9 @@ def create_model():
 
 def optimize_memory(model):
     """Save GPU memory through blob sharing."""
-    for device in range(cfg.NUM_GPUS):
+    ''' by bacon '''
+    for device in cfg.GPU_INDXS:
+        ''' by bacon '''
         namescope = 'gpu_{}/'.format(device)
         losses = [namescope + l for l in model.losses]
         model.net._net = memonger.share_grad_blobs(
@@ -155,7 +157,7 @@ def setup_model_for_training(model, weights_file, output_dir):
     """Loaded saved weights and create the network in the C2 workspace."""
     logger = logging.getLogger(__name__)
     add_model_training_inputs(model)
-
+    
     if weights_file:
         # Override random weight initialization with weights from a saved model
         nu.initialize_gpu_from_weights_file(model, weights_file, gpu_id=0)

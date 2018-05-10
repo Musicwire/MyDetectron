@@ -38,7 +38,7 @@ RAW_DIR = 'raw_dir'
 # Available datasets
 DATASETS = {
     
-    ''' by bacon '''
+    #''' by bacon '''
     'human_par_train': {
         IM_DIR:
             _DATA_DIR + '/human_parsing+attribute/parsing/train/images',
@@ -57,7 +57,7 @@ DATASETS = {
         ANN_FN:
             _DATA_DIR + '/human_parsing+attribute/datasets/parsing_test.json'
     },
-    ''' by bacon '''
+    #''' by bacon '''
     
     'cityscapes_fine_instanceonly_seg_train': {
         IM_DIR:

@@ -483,7 +483,9 @@ class DetectionModelHelper(cnn.CNNModelHelper):
     def _SetNewLr(self, cur_lr, new_lr):
         """Do the actual work of updating the model and workspace blobs.
         """
-        for i in range(cfg.NUM_GPUS):
+        ''' by bacon '''
+        for i in cfg.GPU_INDXS:
+            ''' by bacon '''
             with c2_utils.CudaScope(i):
                 workspace.FeedBlob(
                     'gpu_{}/lr'.format(i), np.array([new_lr], dtype=np.float32))
@@ -506,7 +508,10 @@ class DetectionModelHelper(cnn.CNNModelHelper):
         logger.info(
             'Scaling update history by {:.6f} (new lr / old lr)'.
             format(correction))
-        for i in range(cfg.NUM_GPUS):
+
+        ''' by bacon '''
+        for i in cfg.GPU_INDXS:
+            ''' by bacon '''
             with c2_utils.CudaScope(i):
                 for param in self.TrainableParams(gpu_id=i):
                     op = core.CreateOperator(

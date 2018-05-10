@@ -93,12 +93,11 @@ def generalized_rcnn(model):
         add_roi_mask_head_func=get_func(cfg.MRCNN.ROI_MASK_HEAD),
         add_roi_keypoint_head_func=get_func(cfg.KRCNN.ROI_KEYPOINTS_HEAD),
         freeze_conv_body=cfg.TRAIN.FREEZE_CONV_BODY,
-
-        ''' by bacon '''
+        
+        #""" by bacon """
         add_roi_fcn_head_func=get_func(cfg.FCN.ROI_FCN_HEAD),
         add_roi_clsn_head_func=get_func(cfg.CLSN.ROI_CLSN_HEAD)
-        ''' by bacon '''
-        
+        #''' by bacon '''
     )
 
 
@@ -172,9 +171,10 @@ def build_generic_detection_model(
     add_roi_keypoint_head_func=None,
     freeze_conv_body=False,
     
+    #''' by bacon '''
     add_roi_fcn_head_func=False,
     add_roi_clsn_head_func=False
-    ''' by bacon '''
+    #''' by bacon '''
 ):
     def _single_gpu_build_func(model):
         """Build the model on a single GPU. Can be called in a loop over GPUs
@@ -198,10 +198,10 @@ def build_generic_detection_model(
             'mask': None,
             'keypoints': None,
 
-            ''' by bacon '''
+            #''' by bacon '''
             'fcn': None,
             'clsn':None
-            ''' by bacon '''
+            #''' by bacon '''
         }
 
         if cfg.RPN.RPN_ON:
@@ -217,7 +217,9 @@ def build_generic_detection_model(
                 blob_conv, spatial_scale_conv
             )
 
-        if not cfg.MODEL.RPN_ONLY:
+        ''' by bacon '''
+        if not (cfg.MODEL.RPN_ONLY or cfg.MODEL.FCN_ONLY or cfg.MODEL.CLSN_ONLY):
+            ''' by bacon '''
             # Add the Fast R-CNN head
             head_loss_gradients['box'] = _add_fast_rcnn_head(
                 model, add_roi_box_head_func, blob_conv, dim_conv,
@@ -246,7 +248,7 @@ def build_generic_detection_model(
                 spatial_scale_conv
             )
 
-        if cfg.MODEL.CLS_ONLY:
+        if cfg.MODEL.CLSN_ONLY:
             # Add the CLSN head
             head_loss_gradients['clsn'] = _add_clsn_head(
                 model, add_roi_clsn_head_func, blob_conv, dim_conv,
@@ -258,7 +260,7 @@ def build_generic_detection_model(
             loss_gradients = {}
 
             ''' seg-eve '''
-           if cfg.TRAIN.TRAIN_MASK_HEAD_ONLY:
+            if cfg.TRAIN.TRAIN_MASK_HEAD_ONLY:
                 loss_gradients.update(head_loss_gradients['mask'])
             else:
                 for lg in head_loss_gradients.values():
@@ -303,7 +305,7 @@ def _add_fast_rcnn_head(
     # Add the fast-rcnn loss
     ''' seg-eve '''
     if model.train and not cfg.TRAIN.TRAIN_MASK_HEAD_ONLY:
-    ''' seg-eve '''
+        ''' seg-eve '''
         loss_gradients = fast_rcnn_heads.add_fast_rcnn_losses(model)
     else:
         loss_gradients = None
@@ -367,10 +369,10 @@ def _add_roi_keypoint_head(
         )
         model.net._net = bbox_net
         loss_gradients = None
-    ''' seg-eve '''
+        ''' seg-eve '''
     elif not cfg.TRAIN.TRAIN_MASK_HEAD_ONLY:  # == train
         loss_gradients = keypoint_rcnn_heads.add_keypoint_losses(model)
-    ''' seg-eve '''
+        ''' seg-eve '''
     else:  # == train mask head only
         loss_gradients = None
     return loss_gradients
@@ -385,12 +387,12 @@ def _add_fcn_head(
         model, blob_in, dim_in, spatial_scale_in
     )
     # Add the fcn output
-    blob_fcn = fcn_heads.add_rfcn_outputs(
+    blob_fcn = fcn_heads.add_fcn_outputs(
         model, blob_fcn_head, dim_fcn_head
     )
     # Add the fcn loss
     if model.train:
-        loss_gradients = fcn_heads.add_fcn_rcnn_losses(model, blob_fcn)
+        loss_gradients = fcn_heads.add_fcn_losses(model, blob_fcn)
     else:
         loss_gradients = None
     
@@ -485,7 +487,9 @@ def add_training_inputs(model, roidb=None):
     blob_names = roi_data.minibatch.get_minibatch_blob_names(
         is_training=True
     )
-    for gpu_id in range(cfg.NUM_GPUS):
+    ''' by bacon '''
+    for gpu_id in cfg.GPU_INDXS:
+        ''' by bacon '''
         with c2_utils.NamedCudaScope(gpu_id):
             for blob_name in blob_names:
                 workspace.CreateBlob(core.ScopedName(blob_name))

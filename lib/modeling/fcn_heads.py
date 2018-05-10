@@ -37,7 +37,7 @@ import utils.blob as blob_utils
 # ---------------------------------------------------------------------------- #
 # FCN outputs and losses
 # ---------------------------------------------------------------------------- #
-def add_fcn_rcnn_outputs(model, blob_in, dim):
+def add_fcn_outputs(model, blob_in, dim):
 
     """Add FCN specific outputs: either mask logits or probs."""
     dim_out = 1
@@ -68,11 +68,11 @@ def add_fcn_rcnn_outputs(model, blob_in, dim):
     
     return blob_out
 
-def add_fcn_rcnn_losses(model, blob_mask):
+def add_fcn_losses(model, blob_mask):
     """Add FCN specific losses."""
     loss_mask = model.net.SoftmaxWithLoss(
         [blob_mask, 'masks_int32'],
-        'loss_mask',
+        ['mask_prob', 'loss_mask'],
         scale=model.GetLossScale()
     )
     loss_gradients = blob_utils.get_loss_gradients(model, ['loss_mask'])

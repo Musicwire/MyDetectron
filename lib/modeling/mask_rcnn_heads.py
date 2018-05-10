@@ -234,8 +234,15 @@ def add_mask_rcnn_outputs(model, blob_in, dim):
             # If using class-agnostic mask, scale down init to avoid NaN loss
             init_filler = (
                 cfg.MRCNN.CONV_INIT if cfg.MRCNN.CLS_SPECIFIC_MASK else 'GaussianFill')
+                
             fcn_branch = model.Conv(
-                blob_in, 'mask_fcn_logits', dim, num_cls, 1, pad=0, stride=1,
+                blob_in, 
+                'mask_fcn_logits', 
+                dim, 
+                num_cls, 
+                1, 
+                pad=0, 
+                stride=1,
                 weight_init=(init_filler, {'std': 0.001}),
                 bias_init=('ConstantFill', {'value': 0.}))
 

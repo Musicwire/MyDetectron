@@ -195,7 +195,11 @@ def broadcast_parameters(model):
 def sum_multi_gpu_blob(blob_name):
     """Return the sum of a scalar blob held on multiple GPUs."""
     val = 0
-    for i in range(cfg.NUM_GPUS):
+
+    ''' by bacon '''
+    for i in cfg.GPU_INDXS:
+        ''' by bacon '''
+        
         val += float(workspace.FetchBlob('gpu_{}/{}'.format(i, blob_name)))
     return val
 

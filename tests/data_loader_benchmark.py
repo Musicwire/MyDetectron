@@ -113,7 +113,11 @@ def main(opts):
     net = core.Net('dequeue_net')
     net.type = 'dag'
     all_blobs = []
-    for gpu_id in range(cfg.NUM_GPUS):
+
+    ''' by bacon '''
+    for gpu_id in cfg.GPU_INDXS:
+        ''' by bacon '''
+        
         with core.NameScope('gpu_{}'.format(gpu_id)):
             with core.DeviceScope(muji.OnGPU(gpu_id)):
                 for blob_name in blob_names:

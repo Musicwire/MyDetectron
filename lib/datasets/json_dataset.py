@@ -237,7 +237,7 @@ class JsonDataset(object):
 
             ''' by bacon '''
             if obj['iscrowd'] or cfg.MODEL.CLSN_ONLY:
-            ''' by bacon '''
+                ''' by bacon '''
                 # Set overlap to -1 for all classes for crowd objects
                 # so they will be excluded during training
                 gt_overlaps[ix, :] = -1.0

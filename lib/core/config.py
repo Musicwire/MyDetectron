@@ -192,13 +192,13 @@ __C.TRAIN.FREEZE_CONV_BODY = False
 # output directory
 __C.TRAIN.AUTO_RESUME = True
 
-################################################################################
 ''' seg-eve '''
-# For seg-every-thing training
 __C.TRAIN.TRAIN_MASK_HEAD_ONLY = False
+
 __C.TRAIN.MRCNN_FILTER_LABELS = False
+
 __C.TRAIN.MRCNN_LABELS_TO_KEEP = ()
-################################################################################
+''' seg-eve '''
 
 # ---------------------------------------------------------------------------- #
 # Data loader options
@@ -611,10 +611,8 @@ __C.SOLVER.MOMENTUM = 0.9
 # L2 regularization hyperparameter
 __C.SOLVER.WEIGHT_DECAY = 0.0005
 
-''' seg-eve '''
 # L2 regularization hyperparameter for GroupNorm's parameters
 __C.SOLVER.WEIGHT_DECAY_GN = 0.0
-''' seg-eve '''
 
 # Warm up to SOLVER.BASE_LR over this number of SGD iterations
 __C.SOLVER.WARM_UP_ITERS = 500
@@ -651,12 +649,10 @@ __C.FAST_RCNN.ROI_BOX_HEAD = b''
 # Hidden layer dimension when using an MLP for the RoI box head
 __C.FAST_RCNN.MLP_HEAD_DIM = 1024
 
-''' seg-eve '''
 # Hidden Conv layer dimension when using Convs for the RoI box head
 __C.FAST_RCNN.CONV_HEAD_DIM = 256
 # Number of stacked Conv layers in the RoI box head
 __C.FAST_RCNN.NUM_STACKED_CONVS = 4
-''' seg-eve '''
 
 # RoI transformation function (e.g., RoIPool or RoIAlign)
 # (RoIPoolF is the same as RoIPool; ignore the trailing 'F')
@@ -739,10 +735,8 @@ __C.FPN.RPN_ANCHOR_START_SIZE = 32
 # Use extra FPN levels, as done in the RetinaNet paper
 __C.FPN.EXTRA_CONV_LEVELS = False
 
-''' seg-eve '''
 # Use GroupNorm in the FPN-specific layers (lateral, etc.)
 __C.FPN.USE_GN = False
-''' seg-eve '''
 
 
 # ---------------------------------------------------------------------------- #
@@ -792,6 +786,32 @@ __C.MRCNN.WEIGHT_LOSS_MASK = 1.0
 
 # Binarization threshold for converting soft masks to hard masks
 __C.MRCNN.THRESH_BINARIZE = 0.5
+
+''' seg-eve '''
+__C.MRCNN.BBOX2MASK = AttrDict()
+
+__C.MRCNN.BBOX2MASK.BBOX2MASK_ON = False
+
+__C.MRCNN.BBOX2MASK.TYPE = b''
+
+__C.MRCNN.BBOX2MASK.USE_PRETRAINED_EMBED = False
+
+__C.MRCNN.BBOX2MASK.PRETRAINED_EMBED_NAME = b''
+
+__C.MRCNN.BBOX2MASK.PRETRAINED_EMBED_DIM = -1
+
+__C.MRCNN.BBOX2MASK.STOP_DET_W_GRAD = True
+
+__C.MRCNN.BBOX2MASK.INCLUDE_CLS_SCORE = True
+
+__C.MRCNN.BBOX2MASK.INCLUDE_BBOX_PRED = False
+
+__C.MRCNN.BBOX2MASK.USE_LEAKYRELU = True
+
+__C.MRCNN.JOINT_FCN_MLP_HEAD = False
+
+__C.MRCNN.MLP_MASK_BRANCH_TYPE = b''
+''' seg-eve '''
 
 
 # ---------------------------------------------------------------------------- #
@@ -872,25 +892,6 @@ __C.KRCNN.LOSS_WEIGHT = 1.0
 __C.KRCNN.NORMALIZE_BY_VISIBLE_KEYPOINTS = True
 
 
-################################################################################
-''' seg-eve '''
-# For seg-every-thing training
-__C.MRCNN.BBOX2MASK = AttrDict()
-__C.MRCNN.BBOX2MASK.BBOX2MASK_ON = False
-__C.MRCNN.BBOX2MASK.TYPE = b''
-__C.MRCNN.BBOX2MASK.USE_PRETRAINED_EMBED = False
-__C.MRCNN.BBOX2MASK.PRETRAINED_EMBED_NAME = b''
-__C.MRCNN.BBOX2MASK.PRETRAINED_EMBED_DIM = -1
-__C.MRCNN.BBOX2MASK.STOP_DET_W_GRAD = True
-__C.MRCNN.BBOX2MASK.INCLUDE_CLS_SCORE = True
-__C.MRCNN.BBOX2MASK.INCLUDE_BBOX_PRED = False
-__C.MRCNN.BBOX2MASK.USE_LEAKYRELU = True
-
-__C.MRCNN.JOINT_FCN_MLP_HEAD = False
-__C.MRCNN.MLP_MASK_BRANCH_TYPE = b''
-################################################################################
-
-
 ''' by bacon '''
 # ---------------------------------------------------------------------------- #
 # FCN options
@@ -900,7 +901,7 @@ __C.FCN = AttrDict()
 # The type of RoI head to use for instance mask prediction
 # The string must match a function this is imported in modeling.model_builder
 # (e.g., 'mask_rcnn_heads.ResNet_mask_rcnn_fcn_head_v1up4convs')
-__C.FCN.ROI_MASK_HEAD = b''
+__C.FCN.ROI_FCN_HEAD = b''
 
 # Resolution of mask predictions
 __C.FCN.RESOLUTION = 14
@@ -992,18 +993,15 @@ __C.RESNETS.STRIDE_1X1 = True
 # Residual transformation function
 __C.RESNETS.TRANS_FUNC = b'bottleneck_transformation'
 
-''' seg-eve '''
 # ResNet's stem function (conv1 and pool1)
 __C.RESNETS.STEM_FUNC = b'basic_bn_stem'
 # ResNet's shortcut function
 __C.RESNETS.SHORTCUT_FUNC = b'basic_bn_shortcut'
-''' seg-eve '''
 
 # Apply dilation in stage "res5"
 __C.RESNETS.RES5_DILATION = 1
 
 
-''' seg-eve '''
 # ---------------------------------------------------------------------------- #
 # GroupNorm options
 # ---------------------------------------------------------------------------- #
@@ -1014,7 +1012,6 @@ __C.GROUP_NORM.DIM_PER_GP = -1
 __C.GROUP_NORM.NUM_GROUPS = 32
 # GroupNorm's small constant in the denominator
 __C.GROUP_NORM.EPSILON = 1e-5
-''' seg-eve '''
 
 
 # ---------------------------------------------------------------------------- #
@@ -1023,6 +1020,10 @@ __C.GROUP_NORM.EPSILON = 1e-5
 
 # Number of GPUs to use (applies to both training and testing)
 __C.NUM_GPUS = 1
+
+''' by bacon '''
+__C.GPU_INDXS = range(__C.NUM_GPUS)
+''' by bacon '''
 
 # Use NCCL for all reduce, otherwise use muji
 # Warning: if set to True, you may experience deadlocks
@@ -1144,7 +1145,6 @@ _RENAMED_KEYS = {
         "'path/to/file1:path/to/file2' -> " +
         "('path/to/file1', 'path/to/file2')"
     ),
-    ''' seg-eve ''' 
     'TEST.SCALES': (
         'TEST.SCALE',
         "Also convert from a tuple, e.g. (600, ), " +
@@ -1160,7 +1160,6 @@ _RENAMED_KEYS = {
         "Also convert from a string, e.g. '/path/to/props.pkl', " +
         "to a tuple, e.g. ('/path/to/props.pkl', )."
     ),
-    ''' seg-eve ''' 
 }
 
 

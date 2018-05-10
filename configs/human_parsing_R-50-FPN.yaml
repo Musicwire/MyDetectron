@@ -3,7 +3,8 @@ MODEL:
   CONV_BODY: FPN.add_fpn_ResNet50_conv5_body
   NUM_CLASSES: 27
   FCN_ONLY: True
-NUM_GPUS: 1
+NUM_GPUS: 2
+GPU_INDXS: 
 SOLVER:
   WEIGHT_DECAY: 0.0001
   LR_POLICY: steps_with_decay
@@ -16,7 +17,7 @@ FPN:
   MULTILEVEL_ROIS: True
   MULTILEVEL_RPN: True
 FCN:
-  ROI_MASK_HEAD: fcn_heads.fcn_head_v1up4convs
+  ROI_FCN_HEAD: fcn_heads.fcn_head_v1up4convs
   RESOLUTION: 28  # (output mask resolution) default 14
   ROI_XFORM_METHOD: RoIAlign
   ROI_XFORM_RESOLUTION: 14  # default 7
@@ -32,7 +33,7 @@ TRAIN:
   RPN_PRE_NMS_TOP_N: 2000  # Per FPN level
 TEST:
   DATASETS: ('human_par_test',)
-  SCALES: (800,)
+  SCALE: 800
   FORCE_JSON_DATASET_EVAL: True
   MAX_SIZE: 1333
   NMS: 0.5

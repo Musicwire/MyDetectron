@@ -33,13 +33,12 @@ import utils.segms as segm_utils
 logger = logging.getLogger(__name__)
 batch_size_now = 0
 
-def get_fcn_blobs(is_training=True):
+def get_fcn_blob_names(is_training=True):
     blob_names = []
 
     if is_training:
         blob_names += ['mask_rois']
-        blob_names += ['roi_has_mask_int32']
-        blob_names += ['mask_int32']
+        blob_names += ['masks_int32']
 
         if cfg.FPN.FPN_ON and cfg.FPN.MULTILEVEL_ROIS:
             # Support for FPN multi-level rois without bbox reg isn't
@@ -53,12 +52,11 @@ def get_fcn_blobs(is_training=True):
     return blob_names
 
 def add_fcn_blobs(blobs, im_scales, roidb):
-
     """Add blobs needed for training Fast R-CNN style models."""
     # Sample training RoIs from each image and append them to the blob lists
     for im_i, entry in enumerate(roidb):
-        frcn_blobs = _gen_blobs(entry, im_scales[im_i], im_i)
-        for k, v in frcn_blobs.items():
+        fcn_blobs = _gen_blobs(entry, im_scales[im_i], im_i)
+        for k, v in fcn_blobs.items():
             blobs[k].append(v)
     # Concat the training blob lists into tensors
     for k, v in blobs.items():
@@ -72,6 +70,7 @@ def add_fcn_blobs(blobs, im_scales, roidb):
 
 
 def _gen_blobs(roidb, im_scale, batch_idx):
+    global batch_size_now
 
     """Add Mask R-CNN specific blobs to the input blob dictionary."""
     M = cfg.MRCNN.RESOLUTION
@@ -81,20 +80,23 @@ def _gen_blobs(roidb, im_scale, batch_idx):
     batch_size_now += len(selected_inds)
     if batch_size_now > cfg.TRAIN.BATCH_SIZE:
         selected_inds = selected_inds[:-(batch_size_now-cfg.TRAIN.BATCH_SIZE)]
+        batch_size_now = 0
 
     polys = [roidb['segms'][i] for i in selected_inds]
 
     # Class labels and bounding boxes for the polys
     mask_class_labels = roidb['gt_classes'][selected_inds]
-    mask_rois = roidb['boxes'][selected_inds]
+    mask_rois = np.array(roidb['boxes'][selected_inds], dtype='float32')
 
     # add mask polys
     masks = blob_utils.zeros((selected_inds.shape[0], M**2), int32=True)
     for i in range(len(polys)):
         # Rasterize the polygon mask to an M x M class labels image
         poly_gt = polys[i]
-        mask = segm_utils.polys_to_mask_wrt_box(poly_gt, mask_rois, M)
-        mask = mask_class_labels * np.array(mask > 0, dtype=np.int32)
+        mask_roi = mask_rois[i]
+        mask_class_label = mask_class_labels[i]
+        mask = segm_utils.polys_to_mask_wrt_box(poly_gt, mask_roi, M)
+        mask = mask_class_label * np.array(mask > 0, dtype=np.int32)
         masks[i, :] = np.reshape(mask, M**2)
 
     # Scale mask_rois and format as (batch_idx, x1, y1, x2, y2)
