@@ -4,7 +4,6 @@ MODEL:
   NUM_CLASSES: 27
   FCN_ONLY: True
 NUM_GPUS: 2
-GPU_INDXS: 
 SOLVER:
   WEIGHT_DECAY: 0.0001
   LR_POLICY: steps_with_decay

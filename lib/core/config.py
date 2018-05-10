@@ -1021,10 +1021,6 @@ __C.GROUP_NORM.EPSILON = 1e-5
 # Number of GPUs to use (applies to both training and testing)
 __C.NUM_GPUS = 1
 
-''' by bacon '''
-__C.GPU_INDXS = range(__C.NUM_GPUS)
-''' by bacon '''
-
 # Use NCCL for all reduce, otherwise use muji
 # Warning: if set to True, you may experience deadlocks
 __C.USE_NCCL = False

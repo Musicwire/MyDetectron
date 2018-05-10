@@ -42,9 +42,7 @@ def get_net(data_loader, name):
     net = core.Net(name)
     net.type = 'dag'
 
-    ''' by bacon '''
-    for gpu_id in cfg.GPU_INDXS:
-        ''' by bacon '''
+    for gpu_id in range(cfg.NUM_GPUS):
         with core.NameScope('gpu_{}'.format(gpu_id)):
             with core.DeviceScope(muji.OnGPU(gpu_id)):
                 for blob_name in blob_names:

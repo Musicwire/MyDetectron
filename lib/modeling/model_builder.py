@@ -487,9 +487,7 @@ def add_training_inputs(model, roidb=None):
     blob_names = roi_data.minibatch.get_minibatch_blob_names(
         is_training=True
     )
-    ''' by bacon '''
-    for gpu_id in cfg.GPU_INDXS:
-        ''' by bacon '''
+    for gpu_id in range(cfg.NUM_GPUS):
         with c2_utils.NamedCudaScope(gpu_id):
             for blob_name in blob_names:
                 workspace.CreateBlob(core.ScopedName(blob_name))

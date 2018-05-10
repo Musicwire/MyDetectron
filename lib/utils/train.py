@@ -139,9 +139,7 @@ def create_model():
 
 def optimize_memory(model):
     """Save GPU memory through blob sharing."""
-    ''' by bacon '''
-    for device in cfg.GPU_INDXS:
-        ''' by bacon '''
+    for device in range(cfg.NUM_GPUS):
         namescope = 'gpu_{}/'.format(device)
         losses = [namescope + l for l in model.losses]
         model.net._net = memonger.share_grad_blobs(

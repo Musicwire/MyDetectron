@@ -114,9 +114,7 @@ def main(opts):
     net.type = 'dag'
     all_blobs = []
 
-    ''' by bacon '''
-    for gpu_id in cfg.GPU_INDXS:
-        ''' by bacon '''
+    for gpu_id in range(cfg.NUM_GPUS):
         
         with core.NameScope('gpu_{}'.format(gpu_id)):
             with core.DeviceScope(muji.OnGPU(gpu_id)):

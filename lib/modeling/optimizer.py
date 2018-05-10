@@ -42,9 +42,7 @@ def build_data_parallel_model(model, single_gpu_build_func):
         model.AddGradientOperators(all_loss_gradients)
         if cfg.NUM_GPUS > 1:
             _add_allreduce_graph(model)
-        ''' by bacon '''
-        for gpu_id in cfg.GPU_INDXS:
-            ''' by bacon '''
+        for gpu_id in range(cfg.NUM_GPUS):
             # After allreduce, all GPUs perform SGD updates on their identical
             # params and gradients in parallel
             with c2_utils.NamedCudaScope(gpu_id):
@@ -60,9 +58,7 @@ def _build_forward_graph(model, single_gpu_build_func):
     """Construct the forward graph on each GPU."""
     all_loss_gradients = {}  # Will include loss gradients from all GPUs
     # Build the model on each GPU with correct name and device scoping
-    ''' by bacon '''
-    for gpu_id in cfg.GPU_INDXS:
-        ''' by bacon '''
+    for gpu_id in range(cfg.NUM_GPUS):
         with c2_utils.NamedCudaScope(gpu_id):
             all_loss_gradients.update(single_gpu_build_func(model))
     return all_loss_gradients
