@@ -32,6 +32,7 @@ import utils.segms as segm_utils
 
 logger = logging.getLogger(__name__)
 
+''' by bacon '''
 def get_fcn_blob_names(is_training=True):
     blob_names = []
 
@@ -119,3 +120,5 @@ def _add_multilevel_rois(blobs):
         blobs, rois_blob_name, blobs[rois_blob_name], target_lvls, lvl_min,
         lvl_max
     )
+
+''' by bacon '''
