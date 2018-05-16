@@ -97,10 +97,6 @@ __C.TRAIN.IMS_PER_BATCH = 2
 # E.g., a common configuration is: 512 * 2 * 8 = 8192
 __C.TRAIN.BATCH_SIZE_PER_IM = 64
 
-''' by bacon '''
-__C.TRAIN.BATCH_SIZE = 64
-''' by bacon '''
-
 # Target fraction of RoI minibatch that is labeled foreground (i.e. class > 0)
 __C.TRAIN.FG_FRACTION = 0.25
 
@@ -199,6 +195,7 @@ __C.TRAIN.MRCNN_FILTER_LABELS = False
 
 __C.TRAIN.MRCNN_LABELS_TO_KEEP = ()
 ''' seg-eve '''
+
 
 # ---------------------------------------------------------------------------- #
 # Data loader options
@@ -484,6 +481,8 @@ __C.MODEL.RPN_ONLY = False
 __C.MODEL.FCN_ONLY = False
 # Indicates the model makes class predictions without detection and classification and RPN
 __C.MODEL.CLSN_ONLY = False
+
+__C.MODEL.TRANSFER_ON = False
 ''' by bacon '''
 
 # Caffe2 net execution type

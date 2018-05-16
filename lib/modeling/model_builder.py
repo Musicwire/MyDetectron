@@ -254,6 +254,18 @@ def build_generic_detection_model(
                 model, add_roi_clsn_head_func, blob_conv, dim_conv,
                 spatial_scale_conv
             )
+        
+        if cfg.MODEL.TRANSFER_ON:
+            # Add the FCN head
+            head_loss_gradients['fcn'] = _add_fcn_head(
+                model, add_roi_fcn_head_func, blob_conv, dim_conv, 
+                spatial_scale_conv
+            )
+            # Add the CLSN head
+            head_loss_gradients['clsn'] = _add_clsn_head(
+                model, add_roi_clsn_head_func, blob_conv, dim_conv,
+                spatial_scale_conv
+            )
         ''' by bacon '''
 
         if model.train:

@@ -162,6 +162,11 @@ class JsonDataset(object):
             if k in entry:
                 del entry[k]
 
+        ''' by bacon '''
+        entry['attribute_classes'] = None
+        ''' by bacon '''
+
+
     def _add_gt_annotations(self, entry):
         """Add ground truth annotation metadata to an roidb entry."""
         ann_ids = self.COCO.getAnnIds(imgIds=entry['id'], iscrowd=None)
@@ -179,11 +184,14 @@ class JsonDataset(object):
                     p for p in obj['segmentation'] if len(p) >= 6
                 ]
 
-            ''' by bacon '''
-            if not len(obj['segmentation']):  
+                ''' by bacon '''
+                if not len(obj['segmentation']):  
+                    continue
+            if obj['attribute'] is not None:
+                entry['attribute_classes'] = obj['attribute']
                 continue
             ''' by bacon '''
-
+            
             if obj['area'] < cfg.TRAIN.GT_MIN_AREA:
                 continue
             if 'ignore' in obj and obj['ignore'] == 1:
@@ -201,12 +209,7 @@ class JsonDataset(object):
         num_valid_objs = len(valid_objs)
 
         boxes = np.zeros((num_valid_objs, 4), dtype=entry['boxes'].dtype)
-        
-        ''' by bacon '''
-        label_num = self.num_classes if cfg.MODEL.CLSN_ONLY else 1
-        gt_classes = np.zeros((num_valid_objs, label_num), dtype=entry['gt_classes'].dtype)
-        ''' by bacon '''
-
+        gt_classes = np.zeros((num_valid_objs), dtype=entry['gt_classes'].dtype)
         gt_overlaps = np.zeros(
             (num_valid_objs, self.num_classes),
             dtype=entry['gt_overlaps'].dtype
@@ -224,6 +227,7 @@ class JsonDataset(object):
 
         im_has_visible_keypoints = False
         for ix, obj in enumerate(valid_objs):
+
             cls = self.json_category_id_to_contiguous_id[obj['category_id']]
             boxes[ix, :] = obj['clean_bbox']
             gt_classes[ix] = cls
@@ -235,9 +239,7 @@ class JsonDataset(object):
                 if np.sum(gt_keypoints[ix, 2, :]) > 0:
                     im_has_visible_keypoints = True
 
-            ''' by bacon '''
-            if obj['iscrowd'] or cfg.MODEL.CLSN_ONLY:
-                ''' by bacon '''
+            if obj['iscrowd']:
                 # Set overlap to -1 for all classes for crowd objects
                 # so they will be excluded during training
                 gt_overlaps[ix, :] = -1.0

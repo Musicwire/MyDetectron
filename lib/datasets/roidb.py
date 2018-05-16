@@ -62,11 +62,14 @@ def combined_roidb_for_training(dataset_names, proposal_files):
     roidb = roidbs[0]
     for r in roidbs[1:]:
         roidb.extend(r)
-    roidb = filter_for_training(roidb)
 
-    logger.info('Computing bounding-box regression targets...')
-    add_bbox_regression_targets(roidb)
-    logger.info('done')
+    ''' by bacon '''
+    if not (cfg.MODEL.FCN_ONLY or cfg.MODEL.CLSN_ONLY or cfg.MODEL.TRANSFER_ON):
+        ''' by bacon '''
+        roidb = filter_for_training(roidb)
+        logger.info('Computing bounding-box regression targets...')
+        add_bbox_regression_targets(roidb)
+        logger.info('done')
 
     _compute_and_log_stats(roidb)
 
@@ -95,9 +98,16 @@ def extend_with_flipped_entries(roidb, dataset):
             if k not in dont_copy:
                 flipped_entry[k] = v
         flipped_entry['boxes'] = boxes
-        flipped_entry['segms'] = segm_utils.flip_segms(
-            entry['segms'], entry['height'], entry['width']
-        )
+
+        ''' by bacon '''
+        if len(entry['segms']):
+            flipped_entry['segms'] = segm_utils.flip_segms(
+                entry['segms'], entry['height'], entry['width']
+            )
+        else:
+            flipped_entry['segms'] = []
+        ''' by bacon '''
+
         if dataset.keypoints is not None:
             flipped_entry['gt_keypoints'] = keypoint_utils.flip_keypoints(
                 dataset.keypoints, dataset.keypoint_flip_map,

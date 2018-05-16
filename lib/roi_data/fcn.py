@@ -31,13 +31,11 @@ import utils.blob as blob_utils
 import utils.segms as segm_utils
 
 logger = logging.getLogger(__name__)
-batch_size_now = 0
 
 def get_fcn_blob_names(is_training=True):
     blob_names = []
 
     if is_training:
-        blob_names += ['mask_rois']
         blob_names += ['masks_int32']
 
         if cfg.FPN.FPN_ON and cfg.FPN.MULTILEVEL_ROIS:
@@ -48,10 +46,11 @@ def get_fcn_blob_names(is_training=True):
             for lvl in range(k_min, k_max + 1):
                 blob_names += ['mask_rois_fpn' + str(lvl)]
             blob_names += ['mask_rois_idx_restore_int32']
-
+    
     return blob_names
 
 def add_fcn_blobs(blobs, im_scales, roidb):
+
     """Add blobs needed for training Fast R-CNN style models."""
     # Sample training RoIs from each image and append them to the blob lists
     for im_i, entry in enumerate(roidb):
@@ -69,24 +68,18 @@ def add_fcn_blobs(blobs, im_scales, roidb):
     return True
 
 
-def _gen_blobs(roidb, im_scale, batch_idx):
-    global batch_size_now
+def _gen_blobs(entry, im_scale, batch_idx):
 
     """Add Mask R-CNN specific blobs to the input blob dictionary."""
     M = cfg.MRCNN.RESOLUTION
 
-    selected_inds = np.where((roidb['gt_classes'] > 0) & (roidb['is_crowd'] == 0))[0]
+    selected_inds = np.where(entry['gt_classes'] > 0)[0]
 
-    batch_size_now += len(selected_inds)
-    if batch_size_now > cfg.TRAIN.BATCH_SIZE:
-        selected_inds = selected_inds[:-(batch_size_now-cfg.TRAIN.BATCH_SIZE)]
-        batch_size_now = 0
-
-    polys = [roidb['segms'][i] for i in selected_inds]
+    polys = [entry['segms'][i] for i in selected_inds]
 
     # Class labels and bounding boxes for the polys
-    mask_class_labels = roidb['gt_classes'][selected_inds]
-    mask_rois = np.array(roidb['boxes'][selected_inds], dtype='float32')
+    mask_class_labels = entry['gt_classes'][selected_inds]
+    mask_rois = np.array(entry['boxes'][selected_inds], dtype='float32')
 
     # add mask polys
     masks = blob_utils.zeros((selected_inds.shape[0], M**2), int32=True)
@@ -99,13 +92,7 @@ def _gen_blobs(roidb, im_scale, batch_idx):
         mask = mask_class_label * np.array(mask > 0, dtype=np.int32)
         masks[i, :] = np.reshape(mask, M**2)
 
-    # Scale mask_rois and format as (batch_idx, x1, y1, x2, y2)
-    mask_rois *= im_scale
-    repeated_batch_idx = batch_idx * blob_utils.ones((mask_rois.shape[0], 1))
-    mask_rois = np.hstack((repeated_batch_idx, mask_rois))
-
     blob_dict = {}
-    blob_dict['mask_rois'] = mask_rois
     blob_dict['masks_int32'] = masks
 
     return blob_dict

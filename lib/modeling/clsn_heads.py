@@ -60,14 +60,14 @@ def add_clsn_outputs(model, blob_in, dim):
 
 def add_clsn_losses(model):
     """Add losses for RoI classification and bounding box regression."""
-    cls_prob, loss_cls = model.net.SigmoidCrossEntropyLoss(
-        ['cls_logits', 'labels_int32'], ['cls_prob', 'loss_cls'],
+    loss_cls = model.net.SigmoidCrossEntropyLoss(
+        ['cls_logits', 'labels_int32'], 
+        'loss_cls',
         scale=model.GetLossScale()
     )
 
-    loss_gradients = blob_utils.get_loss_gradients(model, loss_cls)
-    model.Accuracy(['cls_prob', 'labels_int32'], 'accuracy_cls')
-    model.AddMetrics('accuracy_cls')
+    loss_gradients = blob_utils.get_loss_gradients(model, [loss_cls])
+    model.AddLosses('loss_cls')
 
     return loss_gradients
 
@@ -78,18 +78,22 @@ def add_clsn_losses(model):
 
 def add_roi_2mlp_head(model, blob_in, dim_in, spatial_scale):
 
-    """Add a ReLU MLP with two hidden layers."""
-    hidden_dim = cfg.CLSN.MLP_HEAD_DIM
-    roi_size = cfg.CLSN.ROI_XFORM_RESOLUTION
-    roi_feat = model.RoIFeatureTransform(
-        blob_in,
-        'roi_feat',
-        blob_rois='rois',
-        method=cfg.CLSN.ROI_XFORM_METHOD,
-        resolution=roi_size,
-        sampling_ratio=cfg.CLSN.ROI_XFORM_SAMPLING_RATIO,
-        spatial_scale=spatial_scale
-    )
-    model.FC(roi_feat, 'fc6', dim_in * roi_size * roi_size, hidden_dim)
-    model.Relu('fc6', 'fc6')
-    return 'fc6', hidden_dim
+    # """Add a ReLU MLP with two hidden layers."""
+    # hidden_dim = cfg.CLSN.MLP_HEAD_DIM
+    # roi_size = cfg.CLSN.ROI_XFORM_RESOLUTION
+    # roi_feat = model.RoIFeatureTransform(
+    #     blob_in,
+    #     'roi_feat',
+    #     blob_rois='rois',
+    #     method=cfg.CLSN.ROI_XFORM_METHOD,
+    #     resolution=roi_size,
+    #     sampling_ratio=cfg.CLSN.ROI_XFORM_SAMPLING_RATIO,
+    #     spatial_scale=spatial_scale
+    # )
+    # model.FC(roi_feat, 'fc6', dim_in * roi_size * roi_size, hidden_dim)
+    # model.Relu('fc6', 'fc6')
+
+    model.AveragePool(blob_in, 'average_pool', global_pooling=True)
+    model.StopGradient('average_pool', 'average_pool')
+
+    return 'average_pool', dim_in

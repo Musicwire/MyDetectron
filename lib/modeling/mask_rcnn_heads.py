@@ -39,9 +39,7 @@ from utils.net import get_group_gn
 import modeling.ResNet as ResNet
 import utils.blob as blob_utils
 
-''' seg-eve '''
 from utils.net import get_group_gn
-''' seg-eve '''
 
 # ---------------------------------------------------------------------------- #
 # Mask R-CNN outputs and losses
@@ -73,32 +71,50 @@ def bbox2mask_weight_transfer(model, class_embed, dim_in, dim_h, dim_out):
 
     if (not bbox2mask_type) or bbox2mask_type == '1_layer':
         mask_w_flat = model.FC(
-            class_embed, 'mask_fcn_logits_w_flat', dim_in, dim_out,
+            class_embed, 
+            'mask_fcn_logits_w_flat', 
+            dim_in, 
+            dim_out,
             weight_init=('MSRAFill', {}),
             bias_init=('ConstantFill', {'value': 0.}))
     elif bbox2mask_type == '2_layer':
         mlp_l1 = model.FC(
-            class_embed, 'bbox2mask_mlp_l1', dim_in, dim_h,
+            class_embed, 
+            'bbox2mask_mlp_l1', 
+            dim_in, 
+            dim_h,
             weight_init=('MSRAFill', {}),
             bias_init=('ConstantFill', {'value': 0.}))
         _mlp_activation(model, mlp_l1, mlp_l1)
         mask_w_flat = model.FC(
-            mlp_l1, 'mask_fcn_logits_w_flat', dim_h, dim_out,
+            mlp_l1, 
+            'mask_fcn_logits_w_flat',
+             dim_h, 
+             dim_out,
             weight_init=('MSRAFill', {}),
             bias_init=('ConstantFill', {'value': 0.}))
     elif bbox2mask_type == '3_layer':
         mlp_l1 = model.FC(
-            class_embed, 'bbox2mask_mlp_l1', dim_in, dim_h,
+            class_embed, 
+            'bbox2mask_mlp_l1', 
+            dim_in, 
+            dim_h,
             weight_init=('MSRAFill', {}),
             bias_init=('ConstantFill', {'value': 0.}))
         _mlp_activation(model, mlp_l1, mlp_l1)
         mlp_l2 = model.FC(
-            mlp_l1, 'bbox2mask_mlp_l2', dim_h, dim_h,
+            mlp_l1, 
+            'bbox2mask_mlp_l2', 
+            dim_h, 
+            dim_h,
             weight_init=('MSRAFill', {}),
             bias_init=('ConstantFill', {'value': 0.}))
         _mlp_activation(model, mlp_l2, mlp_l2)
         mask_w_flat = model.FC(
-            mlp_l2, 'mask_fcn_logits_w_flat', dim_h, dim_out,
+            mlp_l2, 
+            'mask_fcn_logits_w_flat', 
+            dim_h, 
+            dim_out,
             weight_init=('MSRAFill', {}),
             bias_init=('ConstantFill', {'value': 0.}))
     else:
@@ -106,7 +122,9 @@ def bbox2mask_weight_transfer(model, class_embed, dim_in, dim_h, dim_out):
 
     # mask_w has shape (num_cls, dim_out, 1, 1)
     mask_w = model.net.ExpandDims(
-        mask_w_flat, 'mask_fcn_logits_w', dims=[2, 3])
+        mask_w_flat, 
+        'mask_fcn_logits_w', 
+        dims=[2, 3])
     return mask_w
 
 
@@ -116,32 +134,49 @@ def cls_agnostic_mlp_branch(model, blob_in, dim_in, num_cls, dim_h=1024):
 
     if (not fc_mask_head_type) or fc_mask_head_type == '1_layer':
         raw_mlp_branch = model.FC(
-            blob_in, 'mask_mlp_logits_raw', dim_in, dim_out,
+            blob_in, 
+            'mask_mlp_logits_raw', 
+            dim_in, 
+            dim_out,
             weight_init=('GaussianFill', {'std': 0.001}),
             bias_init=('ConstantFill', {'value': 0.}))
     elif fc_mask_head_type == '2_layer':
         mlp_l1 = model.FC(
-            blob_in, 'fc_mask_head_mlp_l1', dim_in, dim_h,
+            blob_in, 'fc_mask_head_mlp_l1', 
+            dim_in, 
+            dim_h,
             weight_init=('MSRAFill', {}),
             bias_init=('ConstantFill', {'value': 0.}))
         model.net.Relu(mlp_l1, mlp_l1)
         raw_mlp_branch = model.FC(
-            mlp_l1, 'mask_mlp_logits_raw', dim_h, dim_out,
+            mlp_l1, 
+            'mask_mlp_logits_raw', 
+            dim_h, 
+            dim_out,
             weight_init=('GaussianFill', {'std': 0.001}),
             bias_init=('ConstantFill', {'value': 0.}))
     elif fc_mask_head_type == '3_layer':
         mlp_l1 = model.FC(
-            blob_in, 'fc_mask_head_mlp_l1', dim_in, dim_h,
+            blob_in, 
+            'fc_mask_head_mlp_l1', 
+            dim_in, 
+            dim_h,
             weight_init=('MSRAFill', {}),
             bias_init=('ConstantFill', {'value': 0.}))
         model.net.Relu(mlp_l1, mlp_l1)
         mlp_l2 = model.FC(
-            mlp_l1, 'fc_mask_head_mlp_l2', dim_h, dim_h,
+            mlp_l1, 
+            'fc_mask_head_mlp_l2', 
+            dim_h, 
+            dim_h,
             weight_init=('MSRAFill', {}),
             bias_init=('ConstantFill', {'value': 0.}))
         model.net.Relu(mlp_l2, mlp_l2)
         raw_mlp_branch = model.FC(
-            mlp_l2, 'mask_mlp_logits_raw', dim_h, dim_out,
+            mlp_l2, 
+            'mask_mlp_logits_raw', 
+            dim_h, 
+            dim_out,
             weight_init=('GaussianFill', {'std': 0.001}),
             bias_init=('ConstantFill', {'value': 0.}))
     else:
@@ -153,7 +188,10 @@ def cls_agnostic_mlp_branch(model, blob_in, dim_in, num_cls, dim_h=1024):
         shape=(-1, 1, cfg.MRCNN.RESOLUTION, cfg.MRCNN.RESOLUTION))
     if num_cls > 1:
         mlp_branch = model.net.Tile(
-            mlp_branch, 'mask_mlp_logits_tiled', tiles=num_cls, axis=1)
+            mlp_branch, 
+            'mask_mlp_logits_tiled', 
+            tiles=num_cls, 
+            axis=1)
 
     return mlp_branch
 
@@ -240,7 +278,7 @@ def add_mask_rcnn_outputs(model, blob_in, dim):
                 'mask_fcn_logits', 
                 dim, 
                 num_cls, 
-                1, 
+                kernel=1, 
                 pad=0, 
                 stride=1,
                 weight_init=(init_filler, {'std': 0.001}),
@@ -259,54 +297,6 @@ def add_mask_rcnn_outputs(model, blob_in, dim):
         blob_out = model.net.Sigmoid(blob_out, 'mask_fcn_probs')
 
     return blob_out
-
-
-# def add_mask_rcnn_outputs(model, blob_in, dim):
-#     """Add Mask R-CNN specific outputs: either mask logits or probs."""
-#     num_cls = cfg.MODEL.NUM_CLASSES if cfg.MRCNN.CLS_SPECIFIC_MASK else 1
-#
-#     if cfg.MRCNN.USE_FC_OUTPUT:
-#         # Predict masks with a fully connected layer (ignore 'fcn' in the blob
-#         # name)
-#         blob_out = model.FC(
-#             blob_in,
-#             'mask_fcn_logits',
-#             dim,
-#             num_cls * cfg.MRCNN.RESOLUTION**2,
-#             weight_init=gauss_fill(0.001),
-#             bias_init=const_fill(0.0)
-#         )
-#     else:
-#         # Predict mask using Conv
-#
-#         # Use GaussianFill for class-agnostic mask prediction; fills based on
-#         # fan-in can be too large in this case and cause divergence
-#         fill = (
-#             cfg.MRCNN.CONV_INIT
-#             if cfg.MRCNN.CLS_SPECIFIC_MASK else 'GaussianFill'
-#         )
-#         blob_out = model.Conv(
-#             blob_in,
-#             'mask_fcn_logits',
-#             dim,
-#             num_cls,
-#             kernel=1,
-#             pad=0,
-#             stride=1,
-#             weight_init=(fill, {'std': 0.001}),
-#             bias_init=const_fill(0.0)
-#         )
-#
-#         if cfg.MRCNN.UPSAMPLE_RATIO > 1:
-#             blob_out = model.BilinearInterpolation(
-#                 'mask_fcn_logits', 'mask_fcn_logits_up', num_cls, num_cls,
-#                 cfg.MRCNN.UPSAMPLE_RATIO
-#             )
-#
-#     if not model.train:  # == if test
-#         blob_out = model.net.Sigmoid(blob_out, 'mask_fcn_probs')
-#
-#     return blob_out
 ''' seg-eve '''
 
 

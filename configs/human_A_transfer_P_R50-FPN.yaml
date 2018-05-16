@@ -2,7 +2,7 @@ MODEL:
   TYPE: generalized_rcnn
   CONV_BODY: FPN.add_fpn_ResNet50_conv5_body
   NUM_CLASSES: 153
-  CLSN_ONLY: True
+  TRANSFER_ON: True
 NUM_GPUS: 2
 SOLVER:
   WEIGHT_DECAY: 0.0001
@@ -17,19 +17,21 @@ FPN:
   MULTILEVEL_RPN: True
 CLSN:
   ROI_CLSN_HEAD: clsn_heads.add_roi_2mlp_head
-  ROI_XFORM_METHOD: RoIPoolF
-  ROI_XFORM_RESOLUTION: 7
-  ROI_XFORM_SAMPLING_RATIO: 2
+FCN:
+  ROI_FCN_HEAD: fcn_heads.fcn_head_v1up4convs
+  RESOLUTION: 28  # (output mask resolution) default 14
+  DILATION: 1  # default 2
+  CONV_INIT: MSRAFill  # default GaussianFill
 TRAIN:
   WEIGHTS: https://s3-us-west-2.amazonaws.com/detectron/ImageNetPretrained/MSRA/R-50.pkl
   DATASETS: ('human_attr_train', 'human_attr_val')
   SCALES: (800,)
   MAX_SIZE: 1333
-  IMS_PER_BATCH: 4 
+  BATCH_SIZE: 2048   # Number of images per batch
   RPN_PRE_NMS_TOP_N: 2000  # Per FPN level
 TEST:
   DATASETS: ('human_attr_test',)
-  SCALE: 800
+  SCALES: (800,)
   FORCE_JSON_DATASET_EVAL: True
   MAX_SIZE: 1333
   NMS: 0.5

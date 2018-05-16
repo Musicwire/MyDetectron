@@ -33,11 +33,8 @@ import utils.segms as segm_utils
 logger = logging.getLogger(__name__)
 
 def get_clsn_blob_names(is_training=True):
-    """ CLSN blob names. """
-    # rois blob: holds R regions of interest, each is a 5-tuple
-    # (batch_idx, x1, y1, x2, y2) specifying an image batch index and a
-    # rectangle (x1, y1, x2, y2)
-    blob_names = ['rois']
+    blob_names = []
+
     if is_training:
         # labels_int32 blob: R categorical labels in [0, ..., K] for K
         # foreground classes plus background
@@ -80,17 +77,14 @@ def _gen_blobs(entry, im_scale, batch_idx):
     examples.
     """
 
-    # Scale rois and format as (batch_idx, x1, y1, x2, y2)
-    sampled_rois = entry['boxes'] * im_scale
-    repeated_batch_idx = batch_idx * blob_utils.ones((sampled_rois.shape[0], 1))
-    sampled_rois = np.hstack((repeated_batch_idx, sampled_rois))
+    classes_labels = np.zeros(cfg.MODEL.NUM_CLASSES, dtype='int32')
+    for cat_indx in entry['attribute_classes']:
+        classes_labels[cat_indx-1] = 1
 
     ''' generate fast rcnn, mask rcnn and keypoint rcnn blobs '''
     # Base Fast R-CNN blobs
-    blob_dict = dict(
-        labels_int32=entry['gt_classes'],
-        rois=sampled_rois
-        )
+    blob_dict = {}
+    blob_dict['labels_int32'] = classes_labels
 
     return blob_dict
 

@@ -67,6 +67,10 @@ def get_minibatch_blob_names(is_training=True):
 
     elif cfg.MODEL.CLSN_ONLY:
         blob_names += roi_data.clsn.get_clsn_blob_names(is_training=is_training)
+    
+    elif cfg.MODEL.TRANSNET:
+        blob_names += roi_data.fcn.get_fcn_blob_names(is_training=is_training)
+        blob_names += roi_data.clsn.get_clsn_blob_names(is_training=is_training)
         ''' by bacon '''
 
     else:
@@ -103,9 +107,13 @@ def get_minibatch(roidb):
         ''' by bacon'''
     elif cfg.MODEL.FCN_ONLY:
         valid = roi_data.fcn.add_fcn_blobs(blobs, im_scales, roidb)
-    
+
     elif cfg.MODEL.CLSN_ONLY:
         valid = roi_data.clsn.add_clsn_blobs(blobs,im_scales, roidb)
+
+    elif cfg.MODEL.TRANSNET:
+        valid = roi_data.fcn.add_fcn_blobs(blobs, im_scales, roidb)
+        valid = roi_data.clsn.add_clsn_blobs(blobs, im_scales, roidb)
         ''' by bacon'''
     
     else:

@@ -53,9 +53,27 @@ DATASETS = {
     },
     'human_par_test': {
         IM_DIR:
-            _DATA_DIR + '/human_parsing+attribute/parsing/test/images',
+            _DATA_DIR + '/human_parsing+attribute/attribute/test/images',
         ANN_FN:
-            _DATA_DIR + '/human_parsing+attribute/datasets/parsing_test.json'
+            _DATA_DIR + '/human_parsing+attribute/datasets/attribute_test.json'
+    },
+    'human_attr_train': {
+        IM_DIR:
+            _DATA_DIR + '/human_parsing+attribute/attribute/train/images',
+        ANN_FN:
+            _DATA_DIR + '/human_parsing+attribute/datasets/attribute_train.json'
+    },
+    'human_attr_val': {
+        IM_DIR:
+            _DATA_DIR + '/human_parsing+attribute/attribute/val/images',
+        ANN_FN:
+            _DATA_DIR + '/human_parsing+attribute/datasets/attribute_val.json'
+    },
+    'human_attr_test': {
+        IM_DIR:
+            _DATA_DIR + '/human_parsing+attribute/attribute/test/images',
+        ANN_FN:
+            _DATA_DIR + '/human_parsing+attribute/datasets/attribute_test.json'
     },
     #''' by bacon '''
     

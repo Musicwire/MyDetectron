@@ -148,31 +148,17 @@ class RoIDataLoader(object):
     def _get_next_minibatch_inds(self):
         """Return the roidb indices for the next minibatch. Thread safe."""
         with self._lock:
-            ''' by bacon '''
-            if cfg.MODEL.FCN_ONLY:
-                db_inds = []
-                num = 0
-                while num < cfg.TRAIN.BATCH_SIZE:
-                    db_inds.append(self._perm[0])
-                    self._perm.rotate(-1)
-                    roi_num_per_img = len(np.where(self._roidb[self._perm[-1]]['gt_classes']>0)[0])
-                    num += roi_num_per_img
-                    self._cur += roi_num_per_img
-                    if self._cur >= len(self._perm):
-                        self._shuffle_roidb_inds()
-            else:
-                # We use a deque and always take the *first* IMS_PER_BATCH items
-                # followed by *rotating* the deque so that we see fresh items
-                # each time. If the length of _perm is not divisible by
-                # IMS_PER_BATCH, then we end up wrapping around the permutation.
-                img_num = cfg.TRAIN.BATCH_SIZE if cfg.MODEL.CLSN_ONLY else cfg.TRAIN.IMS_PER_BATCH
+            # We use a deque and always take the *first* IMS_PER_BATCH items
+            # followed by *rotating* the deque so that we see fresh items
+            # each time. If the length of _perm is not divisible by
+            # IMS_PER_BATCH, then we end up wrapping around the permutation.
+            img_num = cfg.TRAIN.IMS_PER_BATCH
 
-                db_inds = [self._perm[i] for i in range(img_num)]
-                self._perm.rotate(-img_num)
-                self._cur += img_num
-                if self._cur >= len(self._perm):
-                    self._shuffle_roidb_inds()
-            ''' by bacon '''
+            db_inds = [self._perm[i] for i in range(img_num)]
+            self._perm.rotate(-img_num)
+            self._cur += img_num
+            if self._cur >= len(self._perm):
+                self._shuffle_roidb_inds()
 
         return db_inds
 
