@@ -34,6 +34,7 @@ from core.config import cfg
 from utils.c2 import const_fill
 import utils.blob as blob_utils
 
+''' by bacon'''
 # ---------------------------------------------------------------------------- #
 # FCN outputs and losses
 # ---------------------------------------------------------------------------- #
@@ -296,7 +297,7 @@ def add_fcn_losses(model, blob_mask):
     model.AddLosses('loss_mask')
     model.AddMetrics('accuracy_mask')
     return loss_gradients
-    
+
 # ---------------------------------------------------------------------------- #
 # FCN heads
 # ---------------------------------------------------------------------------- #
@@ -335,3 +336,5 @@ def fcn_head_v1up4convs(model, blob_in, dim_in, spatial_scale, num_convs=4):
     blob_mask = model.Relu('conv5_mask', 'conv5_mask')
 
     return blob_mask, dim_inner
+
+''' by bacon'''

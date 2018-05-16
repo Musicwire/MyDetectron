@@ -25,6 +25,7 @@ of image classification. The box output module convertsthe feature representatio
 into classification predictions.
 """
 
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -35,7 +36,7 @@ from utils.c2 import const_fill
 from utils.c2 import gauss_fill
 import utils.blob as blob_utils
 
-
+''' by bacon'''
 # ---------------------------------------------------------------------------- #
 # clsn R-CNN outputs and losses
 # ---------------------------------------------------------------------------- #
@@ -97,3 +98,5 @@ def add_roi_2mlp_head(model, blob_in, dim_in, spatial_scale):
     model.StopGradient('average_pool', 'average_pool')
 
     return 'average_pool', dim_in
+
+''' by bacon'''
